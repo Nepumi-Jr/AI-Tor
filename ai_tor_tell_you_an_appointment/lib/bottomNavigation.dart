@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+enum BottomPages { home, settings, calendar, statistics }
+
 class BottomNavigation extends StatelessWidget {
-  final String focused;
+  final BottomPages focused;
   const BottomNavigation({required this.focused, super.key});
 
   Widget _buildBottomNavigationItem(
       {required IconData icon,
-      required String name,
+      required BottomPages name,
       required String text,
       void Function()? onTap}) {
     return Column(
@@ -32,14 +34,13 @@ class BottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 8
-            .0),
+        padding: const EdgeInsets.only(bottom: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildBottomNavigationItem(
               icon: Icons.home,
-              name: 'home',
+              name: BottomPages.home,
               text: 'Home',
               onTap: () {
                 //TODO : Navigate to home page
@@ -47,7 +48,7 @@ class BottomNavigation extends StatelessWidget {
             ),
             _buildBottomNavigationItem(
               icon: Icons.calendar_month,
-              name: 'calendar',
+              name: BottomPages.calendar,
               text: 'Calendar',
               onTap: () {
                 //TODO : Navigate to home page
@@ -55,7 +56,7 @@ class BottomNavigation extends StatelessWidget {
             ),
             _buildBottomNavigationItem(
               icon: Icons.bar_chart,
-              name: 'statistics',
+              name: BottomPages.statistics,
               text: 'Statistics',
               onTap: () {
                 //TODO : Navigate to home page
@@ -63,7 +64,7 @@ class BottomNavigation extends StatelessWidget {
             ),
             _buildBottomNavigationItem(
               icon: Icons.settings,
-              name: 'settings',
+              name: BottomPages.settings,
               text: 'Settings',
               onTap: () {
                 //TODO : Navigate to home page
