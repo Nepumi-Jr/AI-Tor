@@ -135,6 +135,7 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                   final provider =
                       Provider.of<ThemeProvider>(context, listen: false);
                   provider.setThemeColor(pickerColor, pickThemeMode);
+                  provider.saveThemeColor();
                   Navigator.of(context).pop();
                 },
                 child: const Text(
