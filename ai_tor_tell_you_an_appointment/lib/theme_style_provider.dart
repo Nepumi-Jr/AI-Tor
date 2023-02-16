@@ -4,19 +4,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeProvider() {
-    // Get the current system brightness.
-    final brightness = SchedulerBinding.instance.window.platformBrightness;
-    if (brightness == Brightness.dark) {
-      setThemeColor(Colors.cyanAccent, ThemeMode.dark);
-    } else {
-      setThemeColor(Colors.blueAccent, ThemeMode.light);
-    }
+    loadThemeColor();
   }
 
   ThemeMode themeMode = ThemeMode.system;
+  Color primaryColor = Colors.blueAccent;
   ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
     colorScheme: const ColorScheme.dark(),
@@ -54,10 +50,45 @@ class ThemeProvider extends ChangeNotifier {
       primaryColor: color,
       colorScheme: lightTheme.colorScheme.copyWith(primary: color),
     );
-
+    primaryColor = color;
     //? check is this color should use in dark mode or light mode
     themeMode = mode;
-
     notifyListeners();
+  }
+
+  Future<void> saveThemeColor() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("setting_color_r", primaryColor.red);
+    await prefs.setInt("setting_color_g", primaryColor.green);
+    await prefs.setInt("setting_color_b", primaryColor.blue);
+
+    await prefs.setBool("setting_dark_theme", themeMode == ThemeMode.dark);
+  }
+
+  Future<void> loadThemeColor() async {
+    final prefs = await SharedPreferences.getInstance();
+    final brightness = SchedulerBinding.instance.window.platformBrightness;
+
+    final Color defaultColor;
+    final bool isDarkMode;
+
+    if (brightness == Brightness.dark) {
+      //? dark mode
+      defaultColor = Colors.cyanAccent;
+      isDarkMode = true;
+    } else {
+      defaultColor = Colors.blueAccent;
+      isDarkMode = false;
+    }
+
+    final int r = prefs.getInt('setting_color_r') ?? defaultColor.red;
+    final int g = prefs.getInt('setting_color_g') ?? defaultColor.green;
+    final int b = prefs.getInt('setting_color_b') ?? defaultColor.blue;
+
+    setThemeColor(
+        Color.fromARGB(255, r, g, b),
+        (prefs.getBool('setting_dark_theme') ?? isDarkMode)
+            ? ThemeMode.dark
+            : ThemeMode.light);
   }
 }
