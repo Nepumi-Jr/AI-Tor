@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-//import 'package:ai_tor_tell_you_an_appointment/styleData.dart';
 import 'package:ai_tor_tell_you_an_appointment/bottomNavigation.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 
 import '../theme_style_provider.dart';
 
@@ -55,15 +53,14 @@ class _Settings extends State<Settings> {
               text: 'Face Image',
               icon: Icons.image,
               onTap: () {
-                //TODO: Add face image setting.
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FaceSettings()));
               },
             ),
             const SizedBox(height: 12.0),
             ElevatedButton(
               onPressed: () {
-                final snackBar =
-                    const SnackBar(content: Text('กดหาพ่อมึงหรอ???'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                // TODO: LOGOUT
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
@@ -105,7 +102,6 @@ class _Settings extends State<Settings> {
       ),
       bottomNavigationBar:
           const BottomNavigation(focused: BottomPages.settings),
-      //appBar: AppBar(title: const Center(child: Text("Settings"))), TODO: During deciding the design.
     );
   }
 }
