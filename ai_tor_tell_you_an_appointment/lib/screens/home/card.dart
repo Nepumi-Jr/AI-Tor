@@ -9,7 +9,6 @@ class ListCard extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       width: 500,
       height: 100,
-      color: Colors.white,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
             children: [

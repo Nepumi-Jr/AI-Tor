@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../bottomNavigation.dart';
 import 'calendar_page.dart';
-import 'home_page.dart';
 
 class InfoPage extends StatefulWidget {
   @override
@@ -40,7 +38,7 @@ class InfoPageState extends State<InfoPage> {
             child: Container(
                 alignment: AlignmentDirectional.centerStart,
                 child: IconButton(onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));},
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CalendarPage()));},
                     icon: const Icon(Icons.close, color: Colors.black,)))),
         Expanded(
             child: Row(
@@ -64,10 +62,10 @@ class ListViews extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20, left: 40),
       child: Column(
           children: [
-            ListTile(leading: const Icon(Icons.arrow_right, color: Colors.black), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: TextStyle(fontSize: 16),)),
-            ListTile(leading: const Icon(Icons.notifications, color: Colors.black,), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: TextStyle(fontSize: 16)),),
-            ListTile(leading: const Icon(Icons.location_on, color: Colors.black), title: Text(place, style: TextStyle(fontSize: 16))),
-            ListTile(leading: const Icon(Icons.list, color: Colors.black), title: Text(description, style: TextStyle(fontSize: 16))),
+            ListTile(leading: const Icon(Icons.arrow_right, color: Colors.black), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: const TextStyle(fontSize: 16),)),
+            ListTile(leading: const Icon(Icons.notifications, color: Colors.black,), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: const TextStyle(fontSize: 16)),),
+            ListTile(leading: const Icon(Icons.location_on, color: Colors.black), title: Text(place, style: const TextStyle(fontSize: 16))),
+            ListTile(leading: const Icon(Icons.list, color: Colors.black), title: Text(description, style: const TextStyle(fontSize: 16))),
           ]));
   }
 }

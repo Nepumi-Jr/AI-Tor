@@ -20,13 +20,13 @@ class FaceImage {
     var thisPath = fiveFilePaths[index];
     if (thisPath == defaultImagePath) {
       //TODO: @Apichit ไปใส่รูป default ด้วย
-      return NetworkImage(
+      return const NetworkImage(
           "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg");
     } else {
       if (io.File(thisPath).existsSync()) {
         return FileImage(File(thisPath));
       } else {
-        return NetworkImage(
+        return const NetworkImage(
             "https://icon-library.com/images/default-profile-icon/default-profile-icon-18.jpg");
       }
     }

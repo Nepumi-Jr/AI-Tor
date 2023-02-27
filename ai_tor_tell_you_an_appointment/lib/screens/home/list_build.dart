@@ -17,8 +17,9 @@ class ListCreateState extends State<ListCreate> {
     return ListView.builder(
       itemCount: listLength > 10? 10 : listLength,
       itemBuilder: (BuildContext context, int index) {
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.5),
+        return Container(
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            color: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
             child: ListCard(
                 date: widget.cardData.dateData[index],
                 activity: widget.cardData.activityData[index],

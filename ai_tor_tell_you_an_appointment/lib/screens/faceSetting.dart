@@ -14,8 +14,8 @@ class FaceSettings extends StatefulWidget {
 
 class _FaceSettingsState extends State<FaceSettings> {
   Future<void> onImageSelectAndCrop(int index) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
@@ -52,7 +52,7 @@ class _FaceSettingsState extends State<FaceSettings> {
           showZoomer: true,
         ),
       ],
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
     );
 
     if (croppedFile == null) {
@@ -72,7 +72,7 @@ class _FaceSettingsState extends State<FaceSettings> {
       "Dead face"
     ];
     return Scaffold(
-        appBar: AppBar(title: Text("Image Setting")),
+        appBar: AppBar(title: const Text("Image Setting")),
         body: ListView.builder(
             itemBuilder: (context, index) {
               return Card(
@@ -81,7 +81,7 @@ class _FaceSettingsState extends State<FaceSettings> {
                   title: Text(titles[index]),
                   trailing:
                       Image(image: FaceImage.getImageIndex(index), height: 200),
-                  visualDensity: VisualDensity(vertical: 4),
+                  visualDensity: const VisualDensity(vertical: 4),
                 ),
               );
             },

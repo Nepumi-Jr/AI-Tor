@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/bottomNavigation.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
-
 import '../theme_style_provider.dart';
 
 class Settings extends StatefulWidget {
@@ -23,10 +22,11 @@ class _Settings extends State<Settings> {
   Widget _buildSettingRow(
       {required String text, required IconData icon, void Function()? onTap}) {
     return ListTile(
-      leading: Icon(icon), //, color: StyleData.primaryColor),
+      leading: Icon(icon),
+      iconColor: Theme.of(context).colorScheme.primary,
       title: Text(text),
       trailing:
-          Icon(Icons.arrow_forward_ios), //, color: StyleData.primaryColor),
+          const Icon(Icons.arrow_forward_ios), //, color: StyleData.primaryColor),
       onTap: onTap,
     );
   }
@@ -37,7 +37,7 @@ class _Settings extends State<Settings> {
       //backgroundColor: StyleData.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(
-            top: 32.0, bottom: 16.0, left: 16.0, right: 16.0),
+            top: 10.0, bottom: 16.0, left: 16.0, right: 16.0),
         child: ListView(
           children: <Widget>[
             _buildSettingRow(
@@ -45,7 +45,7 @@ class _Settings extends State<Settings> {
               icon: Icons.color_lens,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const colorTheme()));
+                    builder: (context) => const ColorTheme()));
               },
             ),
             const SizedBox(height: 12.0),

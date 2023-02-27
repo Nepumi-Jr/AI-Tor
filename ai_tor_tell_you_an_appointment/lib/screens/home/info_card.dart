@@ -5,9 +5,10 @@ class infoCard extends StatelessWidget {
   const infoCard({Key? key, required this.name, required this.lv, required this.img, required this.progress, required this.motivateText,}): super(key: key);
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
     return Container(
-      color: Colors.white,
-      width: 500,
+      color: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
+      width: screenW,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

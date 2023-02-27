@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:ai_tor_tell_you_an_appointment/theme_style_provider.dart';
 
-class colorTheme extends StatelessWidget {
-  const colorTheme({Key? key}) : super(key: key);
+class ColorTheme extends StatelessWidget {
+  const ColorTheme({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
             displayThumbColor: true,
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 40),
+            margin: const EdgeInsets.only(bottom: 40),
             child: Column(
               children: [
                 Row(
@@ -81,7 +81,7 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                     )
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 RadioListTile<ThemeMode>(
                   title: Row(
                     children: const <Widget>[
