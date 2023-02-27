@@ -1,3 +1,5 @@
+import 'package:ai_tor_tell_you_an_appointment/screens/calendar_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/home_page.dart';
 import 'package:flutter/material.dart';
 //import 'package:ai_tor_tell_you_an_appointment/styleData.dart';
 
@@ -48,8 +50,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.home,
               text: 'Home',
               onTap: () {
-                //TODO : Navigate to home page
-              },
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));},
             ),
             _buildBottomNavigationItem(
               context,
@@ -57,7 +58,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.calendar,
               text: 'Calendar',
               onTap: () {
-                //TODO : Navigate to home page
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));
               },
             ),
             _buildBottomNavigationItem(
