@@ -12,10 +12,10 @@ class InfoPageState extends State<InfoPage> {
     return Scaffold(
       body: SafeArea(
           child: Container(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark ? Colors.black26 : Colors.white,
               child: Column(
                   children: [
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     _icon(),
                     const Title(titleText: 'ประชุมงาน'),
                     const ListViews(startDate: '11/03/2566',
@@ -35,17 +35,24 @@ class InfoPageState extends State<InfoPage> {
     return Row(
       children: [
         Expanded(
-            child: Container(
-                alignment: AlignmentDirectional.centerStart,
-                child: IconButton(onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CalendarPage()));},
-                    icon: const Icon(Icons.close, color: Colors.black,)))),
+            child: Row(
+              children: [
+                const SizedBox(width: 20,),
+                Container(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: IconButton(onPressed: () {
+                          Navigator.of(context).pop();
+
+                        },
+                        icon: Icon(Icons.close, color: Theme.of(context).colorScheme.primary)))
+              ],
+            )),
         Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                IconButton(onPressed: null, icon: Icon(Icons.edit, color: Colors.black)),
-                IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Colors.black))
+              children: [
+                IconButton(onPressed: null, icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary)),
+                IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary))
               ]))],
     );
   }
@@ -62,10 +69,10 @@ class ListViews extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20, left: 40),
       child: Column(
           children: [
-            ListTile(leading: const Icon(Icons.arrow_right, color: Colors.black), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: const TextStyle(fontSize: 16),)),
-            ListTile(leading: const Icon(Icons.notifications, color: Colors.black,), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: const TextStyle(fontSize: 16)),),
-            ListTile(leading: const Icon(Icons.location_on, color: Colors.black), title: Text(place, style: const TextStyle(fontSize: 16))),
-            ListTile(leading: const Icon(Icons.list, color: Colors.black), title: Text(description, style: const TextStyle(fontSize: 16))),
+            ListTile(leading: Icon(Icons.arrow_right, color: Theme.of(context).colorScheme.primary,), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: const TextStyle(fontSize: 16),)),
+            ListTile(leading: Icon(Icons.notifications, color: Theme.of(context).colorScheme.primary), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: const TextStyle(fontSize: 16)),),
+            ListTile(leading: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary), title: Text(place, style: const TextStyle(fontSize: 16))),
+            ListTile(leading: Icon(Icons.list, color: Theme.of(context).colorScheme.primary), title: Text(description, style: const TextStyle(fontSize: 16))),
           ]));
   }
 }

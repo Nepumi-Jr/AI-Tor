@@ -41,6 +41,7 @@ class HomePageState extends State<HomePage> {
       bottomNavigationBar: const BottomNavigation(focused: BottomPages.home,),
     );
   }
+
   Widget _dropdown() {
     return DropdownButtonHideUnderline(
         child: Container(

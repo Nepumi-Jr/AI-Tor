@@ -138,7 +138,7 @@ class _GraphPageState extends State<GraphPage> {
                             dataLabelSettings:
                             const DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
                             enableTooltip: true,
-                            //color: StyleData.primaryColor
+                            color: Theme.of(context).colorScheme.primary
                           )
                         ],
                         primaryXAxis: DateTimeCategoryAxis(
@@ -178,7 +178,7 @@ class _GraphPageState extends State<GraphPage> {
                             dataLabelSettings:
                             const DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
                             enableTooltip: true,
-                            //color: StyleData.primaryColor
+                            color: Theme.of(context).colorScheme.primary
                           )
                         ],
                         primaryXAxis: DateTimeAxis(), //แสดงชื่อของ bar นั้นๆ
