@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/bottomNavigation.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import '../theme_style_provider.dart';
 
 class Settings extends StatefulWidget {
@@ -25,8 +26,8 @@ class _Settings extends State<Settings> {
       leading: Icon(icon),
       iconColor: Theme.of(context).colorScheme.primary,
       title: Text(text),
-      trailing:
-          const Icon(Icons.arrow_forward_ios), //, color: StyleData.primaryColor),
+      trailing: const Icon(
+          Icons.arrow_forward_ios), //, color: StyleData.primaryColor),
       onTap: onTap,
     );
   }
@@ -41,7 +42,7 @@ class _Settings extends State<Settings> {
         child: ListView(
           children: <Widget>[
             _buildSettingRow(
-              text: 'Color Theme',
+              text: LangMan.get().setting.menuColor,
               icon: Icons.color_lens,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -50,7 +51,7 @@ class _Settings extends State<Settings> {
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-              text: 'Face Image',
+              text: LangMan.get().setting.menuFaceImage,
               icon: Icons.image,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -70,15 +71,16 @@ class _Settings extends State<Settings> {
                 ),
               ),
               child: Row(
-                children: const <Widget>[
+                children: <Widget>[
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 16.0, right: 16.0, top: 12, bottom: 12),
                       child: Center(
                         child: Text(
-                          'LOGOUT',
-                          style: TextStyle(fontSize: 32, color: Colors.white),
+                          LangMan.get().setting.logout,
+                          style: const TextStyle(
+                              fontSize: 32, color: Colors.white),
                         ),
                       ),
                     ),
@@ -89,6 +91,7 @@ class _Settings extends State<Settings> {
             Row(children: const <Widget>[
               Expanded(
                 child: Text(
+                  //? TODO MOVE THIS TO SOMEWHERE ELSE
                   'version alpha 0.0.1',
                   textAlign: TextAlign.right,
                   style: TextStyle(
