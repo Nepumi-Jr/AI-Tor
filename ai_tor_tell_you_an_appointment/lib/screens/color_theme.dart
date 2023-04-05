@@ -1,3 +1,4 @@
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -10,7 +11,7 @@ class ColorTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Color Theme"),
+        title: Text(LangMan.get().setting.colorTitle),
       ),
       body: const ColorThemeContent(),
     );
@@ -72,11 +73,11 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
             child: Column(
               children: [
                 Row(
-                  children: const <Widget>[
+                  children: <Widget>[
                     Expanded(
                       child: Text(
-                        "Tone of Theme",
-                        style: TextStyle(fontSize: 24),
+                        LangMan.get().setting.colorToneTitle,
+                        style: const TextStyle(fontSize: 24),
                       ),
                     )
                   ],
@@ -84,10 +85,10 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                 const SizedBox(height: 20),
                 RadioListTile<ThemeMode>(
                   title: Row(
-                    children: const <Widget>[
-                      Icon(Icons.wb_sunny),
-                      SizedBox(width: 8),
-                      Text('Light Theme'),
+                    children: <Widget>[
+                      const Icon(Icons.wb_sunny),
+                      const SizedBox(width: 8),
+                      Text(LangMan.get().setting.colorLightTheme),
                     ],
                   ),
                   value: ThemeMode.light,
@@ -100,10 +101,10 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                 ),
                 RadioListTile<ThemeMode>(
                   title: Row(
-                    children: const <Widget>[
-                      Icon(Icons.nightlight_round),
-                      SizedBox(width: 8),
-                      Text('Dark Theme'),
+                    children: <Widget>[
+                      const Icon(Icons.nightlight_round),
+                      const SizedBox(width: 8),
+                      Text(LangMan.get().setting.colorDarkTheme),
                     ],
                   ),
                   value: ThemeMode.dark,
@@ -115,7 +116,7 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                   },
                 ),
                 Text(
-                  "Not recommended for your color theme.",
+                  LangMan.get().setting.colorWarning,
                   style: TextStyle(
                     color: Color.fromARGB(
                         (pickThemeMode != recommendedThemeMode) ? 255 : 0,
@@ -138,9 +139,9 @@ class _ColorThemeContentState extends State<ColorThemeContent> {
                   provider.saveThemeColor();
                   Navigator.of(context).pop();
                 },
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(fontSize: 24),
+                child: Text(
+                  LangMan.get().setting.colorConfirm,
+                  style: const TextStyle(fontSize: 24),
                 ),
               )
             ],

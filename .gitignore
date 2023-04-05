@@ -132,3 +132,8 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+ai_tor_tell_you_an_appointment/android/app/google-services.json
+ai_tor_tell_you_an_appointment/ios/firebase_app_id_file.json
+ai_tor_tell_you_an_appointment/ios/Runner/GoogleService-Info.plist
+ai_tor_tell_you_an_appointment/lib/firebase_options.dart
+ai_tor_tell_you_an_appointment/lib/backend/just_account_manager.dart

@@ -1,9 +1,6 @@
-import 'package:ai_tor_tell_you_an_appointment/screens/calendar/calendar_page.dart';
-import 'package:ai_tor_tell_you_an_appointment/screens/home/home_page.dart';
-import 'package:ai_tor_tell_you_an_appointment/screens/settings.dart';
-import 'package:ai_tor_tell_you_an_appointment/sekai/GraphPage.dart';
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
+
 import 'package:flutter/material.dart';
-//import 'package:ai_tor_tell_you_an_appointment/styleData.dart';
 
 enum BottomPages { home, settings, calendar, statistics }
 
@@ -50,35 +47,36 @@ class BottomNavigation extends StatelessWidget {
               context,
               icon: Icons.home,
               name: BottomPages.home,
-              text: 'Home',
+              text: LangMan.get().bottom.home,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SafeArea(child: HomePage())));},
+                Navigator.pushReplacementNamed(context, '/home');
+              },
             ),
             _buildBottomNavigationItem(
               context,
               icon: Icons.calendar_month,
               name: BottomPages.calendar,
-              text: 'Calendar',
+              text: LangMan.get().bottom.calendar,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: CalendarPage())));
+                Navigator.pushReplacementNamed(context, '/calendar');
               },
             ),
             _buildBottomNavigationItem(
               context,
               icon: Icons.bar_chart,
               name: BottomPages.statistics,
-              text: 'Statistics',
+              text: LangMan.get().bottom.statistic,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: GraphPage())));
+                Navigator.pushReplacementNamed(context, '/graph');
               },
             ),
             _buildBottomNavigationItem(
               context,
               icon: Icons.settings,
               name: BottomPages.settings,
-              text: 'Settings',
+              text: LangMan.get().bottom.setting,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: Settings())));
+                Navigator.pushReplacementNamed(context, '/settings');
               },
             ),
           ],
