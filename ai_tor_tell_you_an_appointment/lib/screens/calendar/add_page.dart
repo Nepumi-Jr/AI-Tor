@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+const List<String> dateOfWeek = <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const List<String> months = <String>['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 class AddPage extends StatefulWidget {
   @override
@@ -7,8 +9,28 @@ class AddPage extends StatefulWidget {
 }
 
 class AddPageState extends State<AddPage> {
+  DateTime _dateTimeOfStart = DateTime.now();
+  DateTime _dateTimeOfEnd = DateTime.now();
+  TimeOfDay timeOfStart = const TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay timeOfEnd = const TimeOfDay(hour: 00, minute: 00);
+
   @override
   Widget build(BuildContext context) {
+    // start DATE/TIME
+    final hoursOfStart = timeOfStart.hour.toString().padLeft(2, '0');
+    final minutesOfStart = timeOfStart.minute.toString().padLeft(2, '0');
+    final dateOfStart = _dateTimeOfStart.day;
+    final monthOfStart = _dateTimeOfStart.month.toString();
+    final dateNameOfStart = dateOfWeek[_dateTimeOfStart.weekday - 1];
+    final monthNameOfStart = months[int.parse(monthOfStart) - 1];
+    // end DATE/TIME
+    final hoursOfEnd = timeOfEnd.hour.toString().padLeft(2, '0');
+    final minutesOfEnd = timeOfEnd.minute.toString().padLeft(2, '0');
+    final dateOfEnd = _dateTimeOfEnd.day;
+    final monthOfEnd = _dateTimeOfEnd.month.toString();
+    final dateNameOfEnd = dateOfWeek[_dateTimeOfEnd.weekday - 1];
+    final  monthNameOfEnd = months[int.parse(monthOfEnd) - 1];
+
     return Scaffold(
       body: SafeArea(
         child:Container(
@@ -26,7 +48,6 @@ class AddPageState extends State<AddPage> {
                 ),
                 style: TextStyle(decoration: TextDecoration.none, fontSize: 28),
               ), //Title
-
               const Divider(),
               Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 5),
@@ -35,24 +56,22 @@ class AddPageState extends State<AddPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(margin: const EdgeInsets.only(left: 20, right: 20),child: const Icon(CupertinoIcons.clock),),
-                        const Text('All Day', style: TextStyle(fontSize: 16)),
-                        Expanded(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: const [
-                                  Icon(CupertinoIcons.switch_camera),
-                                  SizedBox(width: 20),
-                                ]))],
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                        Container(margin: const EdgeInsets.only(left: 20,),child: const Icon(CupertinoIcons.clock),),
                         Container(
-                          margin: const EdgeInsets.only(left: 73),
+                          margin: const EdgeInsets.only(left: 20),
                           child: GestureDetector(
-                            child: const Text('Monday, 6, March', style: TextStyle(fontSize: 16)),
+                            child: Text('$dateNameOfStart, $dateOfStart, $monthNameOfStart', style: TextStyle(fontSize: 16)),
+                            onTap: () {
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2023),
+                                  lastDate: DateTime(2025))
+                                  .then((date) {
+                                    setState(() {
+                                      _dateTimeOfStart = date!;
+                              });});
+                            },
                           ),
                         ),
                         Expanded(
@@ -60,7 +79,14 @@ class AddPageState extends State<AddPage> {
                                 margin: const EdgeInsets.only(right: 20),
                                 alignment: AlignmentDirectional.centerEnd,
                                 child: GestureDetector(
-                                  child: const Text('19:30', style: TextStyle(fontSize: 16)),
+                                  child: Text('$hoursOfStart:$minutesOfStart', style: const TextStyle(fontSize: 16)),
+                                  onTap: () async {
+                                    TimeOfDay? newTime = await showTimePicker(
+                                        context: context,
+                                        initialTime: timeOfStart);
+                                    if (newTime == null) return; // cancel
+                                    setState(() => timeOfStart = newTime);
+                                  },
                                 )))],
                     ),
                     const SizedBox(height: 15),
@@ -68,9 +94,20 @@ class AddPageState extends State<AddPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 73),
+                            margin: const EdgeInsets.only(left: 64),
                             child: GestureDetector(
-                              child: const Text('Monday, 6, March', style: TextStyle(fontSize: 16)),
+                              child: Text('$dateNameOfEnd, $dateOfEnd, $monthNameOfEnd', style: TextStyle(fontSize: 16)),
+                              onTap: () {
+                                showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2023),
+                                    lastDate: DateTime(2025))
+                                    .then((date) {
+                                  setState(() {
+                                    _dateTimeOfEnd = date!;
+                                  });});
+                              },
                             ),
                           ),
                           Expanded(
@@ -78,7 +115,14 @@ class AddPageState extends State<AddPage> {
                                 margin: const EdgeInsets.only(right: 20),
                                 alignment: AlignmentDirectional.centerEnd,
                                 child: GestureDetector(
-                                  child: const Text('22:30', style: TextStyle(fontSize: 16)),
+                                  child: Text('$hoursOfEnd:$minutesOfEnd', style: const TextStyle(fontSize: 16)),
+                                  onTap: () async {
+                                    TimeOfDay? newTime = await showTimePicker(
+                                        context: context,
+                                        initialTime: timeOfEnd);
+                                    if (newTime == null) return; // cancel
+                                    setState(() => timeOfEnd = newTime);
+                                  },
                                 ),
                               ))]
                     ),
@@ -182,4 +226,5 @@ class AddPageState extends State<AddPage> {
             ))],
     );
   }
+
 }

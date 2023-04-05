@@ -48,7 +48,7 @@ class _SettingsPage extends State<SettingsPage> {
               icon: Icons.color_lens,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ColorTheme()));
+                    builder: (context) => const SafeArea(child: ColorTheme())));
               },
             ),
             const SizedBox(height: 12.0),
@@ -57,12 +57,21 @@ class _SettingsPage extends State<SettingsPage> {
               icon: Icons.image,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FaceSettings()));
+                    builder: (context) => const SafeArea(child: FaceSettings())));
               },
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-              text: 'Log out',
+              text: 'About',
+              icon: Icons.help_outline_outlined,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SafeArea(child: AboutPage())));
+              },
+            ),
+            const SizedBox(height: 12.0),
+            _buildSettingRow(
+              text: 'Log Out',
               icon: Icons.logout,
               onTap: () {
                 // TODO: LOGOUT

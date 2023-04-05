@@ -11,7 +11,10 @@ class ColorTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LangMan.get().setting.colorTitle),
+        title: Text(LangMan.get().setting.colorTitle,
+            style: TextStyle(color: Theme.of(context).brightness != Brightness.dark ? Colors.black : Colors.white)),
+              backgroundColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
+              foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: const ColorThemeContent(),
     );

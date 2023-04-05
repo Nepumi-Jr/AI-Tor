@@ -73,7 +73,10 @@ class _FaceSettingsState extends State<FaceSettings> {
       LangMan.get().setting.faceDeadImage
     ];
     return Scaffold(
-        appBar: AppBar(title: const Text("Image Setting")),
+        appBar: AppBar(title: Text("Image Setting",
+          style: TextStyle(color: Theme.of(context).brightness != Brightness.dark ? Colors.black : Colors.white)),
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
+            foregroundColor: Theme.of(context).colorScheme.primary),
         body: ListView.builder(
             itemBuilder: (context, index) {
               return Card(

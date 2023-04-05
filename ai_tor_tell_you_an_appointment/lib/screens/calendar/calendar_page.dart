@@ -22,7 +22,7 @@ class CalendarPageState extends State<CalendarPage> {
 
   void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||
-        details.targetElement == CalendarElement.agenda) {
+        details.targetElement == CalendarElement.agenda || details.targetElement == CalendarElement.calendarCell) {
       final Appointment appointmentDetails = details.appointments![0];
       _subjectText = appointmentDetails.subject;
       //TODO: date format support other langs.
