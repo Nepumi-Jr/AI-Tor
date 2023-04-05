@@ -6,6 +6,7 @@ import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import '../theme_style_provider.dart';
+import 'color_theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -37,7 +38,6 @@ class _SettingsPage extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: StyleData.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 16.0, left: 16.0, right: 16.0),
@@ -59,7 +59,6 @@ class _SettingsPage extends State<SettingsPage> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const FaceSettings()));
               },
-
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(

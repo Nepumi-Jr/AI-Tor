@@ -2,10 +2,8 @@ import 'package:ai_tor_tell_you_an_appointment/theme_style_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'backend/faceImage.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ai_tor_tell_you_an_appointment/firebase_options.dart';
-
 import 'package:ai_tor_tell_you_an_appointment/data/data.dart';
 import 'screens/all_page.dart';
 
@@ -36,11 +34,11 @@ class MyApp extends StatelessWidget {
               darkTheme: themeProvider.darkTheme,
               debugShowCheckedModeBanner: false,
               routes: {
-                '/': (context) => LoginPage(),
-                '/home': (context) => HomePage(),
-                '/calendar': (context) => const CalendarPage(),
-                '/graph': (context) => const GraphPage(),
-                '/settings': (context) => const SettingsPage(),
+                '/': (context) => SafeArea(child: LoginPage()),
+                '/home': (context) => SafeArea(child: HomePage()),
+                '/calendar': (context) => SafeArea(child: CalendarPage()),
+                '/graph': (context) => SafeArea(child:  GraphPage()),
+                '/settings': (context) => SafeArea(child: SettingsPage()),
               },
             ),
           );

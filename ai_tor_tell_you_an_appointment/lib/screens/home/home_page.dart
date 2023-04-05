@@ -21,7 +21,7 @@ class HomePageState extends State<HomePage> {
           color: Theme.of(context).brightness == Brightness.dark ? Colors.black45 : Colors.grey[400],
           child: Column(
               children: [
-                const UserInfo(),
+                const UserInfoCard(),
                 Expanded(
                     child: DataList())
               ]),
