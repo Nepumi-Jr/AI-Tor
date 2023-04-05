@@ -1,4 +1,9 @@
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/calendar/calendar_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/home/home_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/settings.dart';
+//import 'package:ai_tor_tell_you_an_appointment/sekai/GraphPage.dart';
+ import 'package:ai_tor_tell_you_an_appointment/graph/graph_page.dart';
 import 'package:flutter/material.dart';
 
 enum BottomPages { home, settings, calendar, statistics }
