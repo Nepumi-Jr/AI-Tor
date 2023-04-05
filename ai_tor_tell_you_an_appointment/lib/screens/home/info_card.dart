@@ -5,6 +5,7 @@ import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/data.dart';
+import '../faceSetting.dart';
 
 class UserInfoCard extends StatelessWidget {
   //? These data could be retrieve from internal backend data
@@ -74,16 +75,22 @@ class UserInfoCard extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     CircularPercentIndicator(
-                      radius: 100,
+                      radius: 105,
                       lineWidth: 5.0,
-                      percent: 0.1,
-                      reverse: true,
+                      percent: (exp ?? 0) / 100,
+                      reverse: false,
                       backgroundColor: Colors.white,
                       progressColor: Theme.of(context).colorScheme.primary,
-                      center: CircleAvatar(
-                        backgroundImage: img,
-                        radius: 100,
-                      ),
+                      center: GestureDetector(
+                          child: CircleAvatar(
+                            backgroundImage: img,
+                            radius: 100,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const SafeArea(child: FaceSettings())));
+                          }),
                     ),
                   ],
                 ),

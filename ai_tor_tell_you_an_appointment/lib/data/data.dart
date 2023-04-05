@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:flutter/material.dart';
 import 'package:googleapis/calendar/v3.dart' as calendar;
+import 'package:googleapis/calendar/v3.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
@@ -143,10 +144,38 @@ class User extends ChangeNotifier {
     return _data.firstWhere((element) => element.calendarEvent.id == id);
   }
 
-  void addActivities(Activities activities) {
-    //_data.add(activities);
-    //TODO : add to database
-    //TODO : add to Google calendar
+  Future<void> addActivities(String title, DateTime dateStart, DateTime dateEnd,
+      String description, String location) async {
+    //? add to Google calendar first
+    final authedClient = GoogleAuthClient(await user!.authHeaders);
+    final calendarAPI = calendar.CalendarApi(authedClient);
+    //? add new event to calendar
+    final newEvent = calendar.Event();
+    newEvent.summary = title;
+    newEvent.description = description;
+    newEvent.start =
+        EventDateTime(dateTime: dateStart, timeZone: 'Asia/Bangkok');
+    newEvent.end = EventDateTime(dateTime: dateEnd, timeZone: 'Asia/Bangkok');
+
+    print(">>>>>>>>>>>>>$dateStart to $dateEnd");
+
+    newEvent.location = location;
+
+    //? push to google calendar
+    final event = await calendarAPI.events.insert(newEvent, 'primary');
+
+    //? add to local data
+    var newActivity = Activities(
+        attendStatus: AttendStatus.notyet,
+        calendarEvent: event,
+        exp: 43 + Random().nextInt(3),
+        location: UserLocation(name: location, latitude: 0, longtiude: 0));
+    _data.add(newActivity);
+
+    CollectionReference userData =
+        FirebaseFirestore.instance.collection(user!.email);
+    DocumentSnapshot doc = await userData.doc(event.id).get();
+    userData.doc(event.id).set(newActivity.toJson());
     dataGetsUpdate();
   }
 

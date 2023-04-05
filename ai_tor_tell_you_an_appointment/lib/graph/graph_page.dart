@@ -157,25 +157,43 @@ class _GraphPageState extends State<GraphPage> {
                         }
                       }
                       if (thisChartType1 == ChartType.week) {
-                        for (int i = 6, timecheck = 42 + now.weekday - 1;
-                            i >= 0;
-                            i--) {
+                        int sum = 0;
+                        int attend = 0;
+                        for (int timecheck = 7 * 7 - 1;
+                            timecheck >= 0;
+                            timecheck--) {
                           DateTime date =
                               now.subtract(Duration(days: timecheck));
-                          _lineData.add(TimeData(date,
-                              (uData.getPercentRateAtDay(date) ?? 0) / 100));
-                          //chartData.add(Data.getDataAtWeek(date ,timecheck)[0]);
-                          timecheck = timecheck - 7;
+                          for (var e in uData.getActivitiesAtDay(date)) {
+                            if (e.attendStatus == AttendStatus.attend) attend++;
+                            if (e.attendStatus == AttendStatus.attend ||
+                                e.attendStatus == AttendStatus.failed) sum++;
+                          }
+                          if (timecheck % 7 == 0) {
+                            _lineData.add(TimeData(date, attend / sum));
+                            sum = 0;
+                            attend = 0;
+                          }
                         }
                       }
                       if (thisChartType1 == ChartType.month) {
-                        for (int i = 6, timecheck = 180; i >= 0; i--) {
+                        int sum = 0;
+                        int attend = 0;
+                        for (int timecheck = 30 * 7 - 1;
+                            timecheck >= 0;
+                            timecheck--) {
                           DateTime date =
                               now.subtract(Duration(days: timecheck));
-                          _lineData.add(TimeData(date,
-                              (uData.getPercentRateAtDay(date) ?? 0) / 100));
-                          //chartData.add(AppointmentResult(date, value));
-                          timecheck = timecheck - 30;
+                          for (var e in uData.getActivitiesAtDay(date)) {
+                            if (e.attendStatus == AttendStatus.attend) attend++;
+                            if (e.attendStatus == AttendStatus.attend ||
+                                e.attendStatus == AttendStatus.failed) sum++;
+                          }
+                          if (timecheck % 30 == 0) {
+                            _lineData.add(TimeData(date, attend / sum));
+                            sum = 0;
+                            attend = 0;
+                          }
                         }
                       }
 
