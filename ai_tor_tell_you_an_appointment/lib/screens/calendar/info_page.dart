@@ -105,17 +105,3 @@ class InfoPageState extends State<InfoPage> {
                         ]))]))));
   }
 }
-
-class Title extends StatelessWidget {
-  final String titleText;
-  const Title({Key? key, required this.titleText}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: AlignmentDirectional.centerStart,
-      margin: const EdgeInsets.only(top: 20, left: 40),
-      child: Text(titleText,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 36)),
-    );
-  }
-}
