@@ -30,8 +30,8 @@ class HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            _dropdown(),
-                            const SizedBox(width: 20)]
+                            // _dropdown(),
+                            const SizedBox(height: 20)]
                     )),
                 Expanded(
                     child: DataList())
