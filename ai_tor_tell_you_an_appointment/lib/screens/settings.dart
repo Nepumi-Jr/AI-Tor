@@ -1,8 +1,10 @@
+import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/bottomNavigation.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import '../theme_style_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -59,6 +61,15 @@ class _SettingsPage extends State<SettingsPage> {
               },
             ),
             const SizedBox(height: 12.0),
+            _buildSettingRow(
+              text: 'About',
+              icon: Icons.help_outline_outlined,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AboutPage()));
+              },
+            ),
+            const SizedBox(height: 12.0),
             ElevatedButton(
               onPressed: () {
                 // TODO: LOGOUT
@@ -99,7 +110,8 @@ class _SettingsPage extends State<SettingsPage> {
                   ),
                 ),
               )
-            ])
+            ]
+            )
           ],
         ),
       ),
