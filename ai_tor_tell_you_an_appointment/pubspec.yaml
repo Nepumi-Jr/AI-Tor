@@ -39,7 +39,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.4.43
   system_theme: ^2.1.0
   syncfusion_flutter_calendar: ^20.4.41
-
+  percent_indicator: ^4.0.1
   google_sign_in: ^6.0.2
   googleapis: ^10.1.0
   googleapis_auth: ^1.4.0
@@ -79,8 +79,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - images/
-
+     - images/icon.png
+     - images/logo.png
+     - images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

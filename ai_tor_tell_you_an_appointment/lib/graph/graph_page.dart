@@ -123,7 +123,7 @@ class _GraphPageState extends State<GraphPage> {
           // title: const Text("Statistic"),
           // ),
           body: Container(
-            color: Colors.yellow[100],
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black45 : Colors.grey[400],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -154,7 +154,7 @@ class _GraphPageState extends State<GraphPage> {
                           dataLabelSettings:
                               DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
                           enableTooltip: true,
-                          //color: StyleData.primaryColor
+                          color: Theme.of(context).colorScheme.primary
                         )
                       ],
                       primaryXAxis: DateTimeCategoryAxis(
@@ -197,7 +197,7 @@ class _GraphPageState extends State<GraphPage> {
                           dataLabelSettings:
                               DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
                           enableTooltip: true,
-                          //color: StyleData.primaryColor
+                          color: Theme.of(context).colorScheme.primary
                         )
                       ],
                       primaryXAxis: DateTimeAxis(), //แสดงชื่อของ bar นั้นๆ

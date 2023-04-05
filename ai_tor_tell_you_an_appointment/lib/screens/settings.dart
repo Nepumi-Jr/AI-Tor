@@ -6,6 +6,7 @@ import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import '../theme_style_provider.dart';
+import 'color_theme.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -23,13 +24,13 @@ class _SettingsPage extends State<SettingsPage> {
   }
 
   Widget _buildSettingRow(
-      {required String text, required IconData icon, void Function()? onTap}) {
+      {required String text, required IconData icon, IconData? arrow = Icons.arrow_forward_ios, void Function()? onTap}) {
     return ListTile(
       leading: Icon(icon),
       iconColor: Theme.of(context).colorScheme.primary,
       title: Text(text),
-      trailing: const Icon(
-          Icons.arrow_forward_ios), //, color: StyleData.primaryColor),
+      trailing:
+        Icon(arrow), //, color: StyleData.primaryColor),
       onTap: onTap,
     );
   }
@@ -37,11 +38,10 @@ class _SettingsPage extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: StyleData.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(
             top: 10.0, bottom: 16.0, left: 16.0, right: 16.0),
-        child: ListView(
+        child: Column(
           children: <Widget>[
             _buildSettingRow(
               text: LangMan.get().setting.menuColor,
@@ -62,56 +62,13 @@ class _SettingsPage extends State<SettingsPage> {
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-              text: 'About',
-              icon: Icons.help_outline_outlined,
+              text: 'Log out',
+              icon: Icons.logout,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AboutPage()));
-              },
-            ),
-            const SizedBox(height: 12.0),
-            ElevatedButton(
-              onPressed: () {
                 // TODO: LOGOUT
               },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black,
-                backgroundColor: Colors.redAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, right: 16.0, top: 12, bottom: 12),
-                      child: Center(
-                        child: Text(
-                          LangMan.get().setting.logout,
-                          style: const TextStyle(
-                              fontSize: 32, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              arrow: null
             ),
-            Row(children: const <Widget>[
-              Expanded(
-                child: Text(
-                  //? TODO MOVE THIS TO SOMEWHERE ELSE
-                  'version alpha 0.0.1',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              )
-            ]
-            )
           ],
         ),
       ),

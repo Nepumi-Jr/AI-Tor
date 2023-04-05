@@ -102,34 +102,14 @@ class ListViews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 20, left: 40),
-        child: Column(children: [
-          ListTile(
-              leading: Icon(
-                Icons.arrow_right,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              title: Text(
-                '$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime',
-                style: const TextStyle(fontSize: 16),
-              )),
-          ListTile(
-            leading: Icon(Icons.notifications,
-                color: Theme.of(context).colorScheme.primary),
-            title: Text(
-                LangMan.interpolate(
-                    LangMan.get().info.alertTimeFormat, [timeNoti]),
-                style: const TextStyle(fontSize: 16)),
-          ),
-          ListTile(
-              leading: Icon(Icons.location_on,
-                  color: Theme.of(context).colorScheme.primary),
-              title: Text(place, style: const TextStyle(fontSize: 16))),
-          ListTile(
-              leading: Icon(Icons.list,
-                  color: Theme.of(context).colorScheme.primary),
-              title: Text(description, style: const TextStyle(fontSize: 16))),
-        ]));
+      margin: const EdgeInsets.only(top: 20, left: 40),
+      child: Column(
+          children: [
+            ListTile(leading: Icon(Icons.arrow_right, color: Theme.of(context).colorScheme.primary,), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: const TextStyle(fontSize: 16),)),
+            ListTile(leading: Icon(Icons.notifications, color: Theme.of(context).colorScheme.primary), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: const TextStyle(fontSize: 18)),),
+            ListTile(leading: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary), title: Text(place, style: const TextStyle(fontSize: 16))),
+            ListTile(leading: Icon(Icons.list, color: Theme.of(context).colorScheme.primary), title: Text(description, style: const TextStyle(fontSize: 16))),
+          ]));
   }
 }
 
