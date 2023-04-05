@@ -55,7 +55,8 @@ class User extends ChangeNotifier {
     return result;
   }
 
-  int getExp() {
+  int? getExp() {
+    if (_data.isEmpty) return null;
     int sum = 0;
     for (final e in _data) {
       sum += e.exp;
@@ -63,15 +64,18 @@ class User extends ChangeNotifier {
     return sum;
   }
 
-  int getExpAtDay(DateTime dateTime) {
+  int? getExpAtDay(DateTime dateTime) {
+    var dData = getActivitiesAtDay(dateTime);
+    if (dData.isEmpty) return null;
     int sum = 0;
-    for (final e in getActivitiesAtDay(dateTime)) {
+    for (final e in dData) {
       sum += e.exp;
     }
     return sum;
   }
 
-  int getPercentRate() {
+  int? getPercentRate() {
+    if (_data.isEmpty) return null;
     int allEvent = 0;
     int attendEvent = 0;
     for (final e in _data) {
@@ -84,12 +88,14 @@ class User extends ChangeNotifier {
       }
     }
     if (allEvent == 0) {
-      return 0;
+      return null;
     }
     return 100 * attendEvent ~/ allEvent;
   }
 
-  int getPercentRateAtDay(DateTime dateTime) {
+  int? getPercentRateAtDay(DateTime dateTime) {
+    var dData = getActivitiesAtDay(dateTime);
+    if (dData.isEmpty) return null;
     int allEvent = 0;
     int attendEvent = 0;
     for (final e in getActivitiesAtDay(dateTime)) {
@@ -102,7 +108,7 @@ class User extends ChangeNotifier {
       }
     }
     if (allEvent == 0) {
-      return 0;
+      return null;
     }
     return 100 * attendEvent ~/ allEvent;
   }
@@ -151,6 +157,7 @@ class User extends ChangeNotifier {
   }
 
   Future<void> initData() async {
+    name = user!.displayName;
     CollectionReference userData =
         FirebaseFirestore.instance.collection(user!.email);
 
@@ -159,6 +166,7 @@ class User extends ChangeNotifier {
     final calendarAPI = calendar.CalendarApi(authedClient);
     final events = await calendarAPI.events.list('primary');
     for (final e in events.items!) {
+      print(">>>>${e.summary}");
       //? check if event is in database
       DocumentSnapshot doc = await userData.doc(e.id).get();
       if (doc.exists) {
@@ -167,24 +175,24 @@ class User extends ChangeNotifier {
             exp: data['exp'],
             location: UserLocation(
                 name: data['locationName'],
-                longtiude: data['longtiude'],
+                longtiude: data['longitude'],
                 latitude: data['latitude']),
             attendStatus: AttendStatus.values[data['attendStatus']],
             calendarEvent: e));
       } else {
-        if (e.start!.dateTime!.isBefore(DateTime.now())) {
-          _data.add(Activities(
-              exp: 0,
-              location: UserLocation(name: "0", longtiude: 0, latitude: 0),
-              attendStatus: AttendStatus.unknown,
-              calendarEvent: e));
-        } else {
-          _data.add(Activities(
-              exp: 43 + Random().nextInt(3),
-              location: UserLocation(name: "0", longtiude: 0, latitude: 0),
-              attendStatus: AttendStatus.unknown,
-              calendarEvent: e));
+        //? if not add to database
+        var dateTime = e.start!.dateTime ?? e.start!.date;
+        var thatActivity = Activities(
+            exp: 43 + Random().nextInt(3),
+            location: UserLocation(name: "0", longtiude: 0, latitude: 0),
+            attendStatus: AttendStatus.notyet,
+            calendarEvent: e);
+        if (dateTime!.isBefore(DateTime.now())) {
+          thatActivity.attendStatus = AttendStatus.unknown;
+          thatActivity.exp = 0;
         }
+        _data.add(thatActivity);
+        userData.doc(e.id).set(thatActivity.toJson());
       }
     }
     notifyListeners();

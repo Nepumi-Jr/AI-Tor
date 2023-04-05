@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/just_account_manager.dart';
-import 'package:ai_tor_tell_you_an_appointment/backend/just_fire_store.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import 'package:ai_tor_tell_you_an_appointment/data/data.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -16,18 +17,17 @@ class LoginPage extends StatelessWidget {
             const Text('Login Page'),
             ElevatedButton(
               onPressed: () {
-                //TODO : Login
-                doLogin();
+                User provide = Provider.of<User>(context, listen: false);
+                provide.doLogin();
               },
               child: const Text('SIGN IN'),
             ),
             ElevatedButton(
               onPressed: () {
-                get_dddata().then((value) {
-                  print((value.data() as Map<String, dynamic>)["1"]);
-                });
-
-                //Navigator.pushNamed(context, '/calendar');
+                User provide = Provider.of<User>(context, listen: false);
+                var data = provide.getActivities();
+                print(">>>>>>>$data");
+                print(">>>>>>>${data[13].calendarEvent.summary}");
               },
               child: const Text('GET'),
             ),
