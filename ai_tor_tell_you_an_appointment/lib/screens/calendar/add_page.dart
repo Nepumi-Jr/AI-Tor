@@ -17,7 +17,7 @@ class AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     // start DATE/TIME
-    final hoursOfStart = timeOfStart.hour.toString().padLeft(2, '0');
+    final String hoursOfStart = timeOfStart.hour.toString().padLeft(2, '0');
     final minutesOfStart = timeOfStart.minute.toString().padLeft(2, '0');
     final dateOfStart = _dateTimeOfStart.day;
     final monthOfStart = _dateTimeOfStart.month.toString();
@@ -198,7 +198,6 @@ class AddPageState extends State<AddPage> {
                     alignment: AlignmentDirectional.centerStart,
                     child: IconButton(onPressed: () {
                       Navigator.of(context).pop();
-
                     },
                         icon: Icon(Icons.close, color: Theme.of(context).colorScheme.primary)))
               ],
