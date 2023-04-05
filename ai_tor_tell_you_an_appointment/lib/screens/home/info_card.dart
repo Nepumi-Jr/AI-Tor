@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class infoCard extends StatelessWidget {
   final String name, lv, img, progress, motivateText;
@@ -25,10 +26,18 @@ class infoCard extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage(img),
-                  radius: 100,
-                )
+              CircularPercentIndicator(
+                radius: 100,
+                lineWidth: 5.0,
+                percent: 0.1,
+                reverse: true,
+                backgroundColor: Colors.white,
+                progressColor: Theme.of(context).colorScheme.primary,
+                center: const CircleAvatar(
+                    backgroundImage: AssetImage('images/test.jpg'),
+                    radius: 90
+                ),
+              ),
               ],
             ),
           ),
@@ -39,7 +48,8 @@ class infoCard extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(top: 5),
               child: Text(motivateText,
-                  style: _textStyle()))
+                  style: _textStyle())),
+          const SizedBox(height: 15)
         ],
       ),
     );

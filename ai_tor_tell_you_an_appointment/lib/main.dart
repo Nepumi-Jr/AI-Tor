@@ -2,8 +2,12 @@
 //* Feel free to change it to your needs.
 //* You can also remove it if you don't need it.
 
+import 'package:ai_tor_tell_you_an_appointment/screens/calendar/add_page.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/calendar/calendar_page.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/calendar/info_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/home/circle_of_exp.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/home/home_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/login_page/login_page.dart';
 import 'package:ai_tor_tell_you_an_appointment/theme_style_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +32,7 @@ class MyApp extends StatelessWidget {
         darkTheme: themeProvider.darkTheme,
         debugShowCheckedModeBanner: false,
         home: SafeArea(
-          child: CalendarPage(),
+          child: HomePage(),
         ),
       );
     },

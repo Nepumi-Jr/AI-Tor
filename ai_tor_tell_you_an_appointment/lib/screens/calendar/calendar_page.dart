@@ -3,6 +3,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../bottomNavigation.dart';
 import 'package:intl/intl.dart';
+import 'add_page.dart';
 import 'info_page.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -39,7 +40,7 @@ class CalendarPageState extends State<CalendarPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Container(child: new Text('$_subjectText')),
+              title: Container(child: Text('$_subjectText')),
               content: Container(
                 height: 80,
                 child: Column(
@@ -143,6 +144,15 @@ class CalendarPageState extends State<CalendarPage> {
         ),
       ),
       bottomNavigationBar: const BottomNavigation(focused: BottomPages.calendar,),
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
+            child: Icon(
+              Icons.add, color: Theme.of(context).colorScheme.primary,
+            ),
+            onPressed: () =>
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SafeArea(child: AddPage()))));
+        })
     );
   }
 }
