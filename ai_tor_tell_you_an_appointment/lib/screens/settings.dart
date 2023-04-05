@@ -52,7 +52,7 @@ class _SettingsPage extends State<SettingsPage> {
               icon: Icons.color_lens,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ColorTheme()));
+                    builder: (context) => const SafeArea(child: ColorTheme())));
               },
             ),
             const SizedBox(height: 12.0),
@@ -61,15 +61,24 @@ class _SettingsPage extends State<SettingsPage> {
               icon: Icons.image,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FaceSettings()));
+                    builder: (context) => const SafeArea(child: FaceSettings())));
               },
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-                text: 'Log out',
-                icon: Icons.logout,
-                onTap: () {
-                  //? display alert dialog
+              text: 'About',
+              icon: Icons.help_outline_outlined,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SafeArea(child: AboutPage())));
+              },
+            ),
+            const SizedBox(height: 12.0),
+            _buildSettingRow(
+              text: 'Log Out',
+              icon: Icons.logout,
+              onTap: () {
+                                  //? display alert dialog
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -91,8 +100,9 @@ class _SettingsPage extends State<SettingsPage> {
                   pData.doLogout().then((value) => Navigator.of(context)
                       .pushNamedAndRemoveUntil(
                           '/', (Route<dynamic> route) => false));
-                },
-                arrow: null),
+              },
+              arrow: null
+            ),
           ],
         ),
       ),

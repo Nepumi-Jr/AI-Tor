@@ -10,7 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  String dropdownValue = 'Date';
 
   @override
   Widget build(BuildContext context) {
