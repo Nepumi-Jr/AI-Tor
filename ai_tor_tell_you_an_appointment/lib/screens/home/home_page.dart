@@ -1,16 +1,16 @@
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
 import '../../bottomNavigation.dart';
 import 'data_list.dart';
-import 'info_card_show.dart';
+import 'info_card.dart';
 
-const List<String> items = <String>['Date', 'Priority'];
 class HomePage extends StatefulWidget {
   @override
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
-  String dropdownValue = items.first;
+  String dropdownValue = 'Date';
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,9 @@ class HomePageState extends State<HomePage> {
               ]),
         ),
       ),
-      bottomNavigationBar: const BottomNavigation(focused: BottomPages.home,),
+      bottomNavigationBar: const BottomNavigation(
+        focused: BottomPages.home,
+      ),
     );
   }
 }
-
-
-
-
-

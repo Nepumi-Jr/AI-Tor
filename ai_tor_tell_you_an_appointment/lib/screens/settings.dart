@@ -1,17 +1,20 @@
+import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/bottomNavigation.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
 import '../theme_style_provider.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  _Settings createState() => _Settings();
+  _SettingsPage createState() => _SettingsPage();
 }
 
-class _Settings extends State<Settings> {
+class _SettingsPage extends State<SettingsPage> {
   Color pickerColor = Colors.tealAccent; // = StyleData.primaryColor;
   ThemeMode pickThemeMode = ThemeMode.light; // = StyleData.themeMode;
 
@@ -41,7 +44,7 @@ class _Settings extends State<Settings> {
         child: Column(
           children: <Widget>[
             _buildSettingRow(
-              text: 'Color Theme',
+              text: LangMan.get().setting.menuColor,
               icon: Icons.color_lens,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -50,7 +53,7 @@ class _Settings extends State<Settings> {
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-              text: 'Face Image',
+              text: LangMan.get().setting.menuFaceImage,
               icon: Icons.image,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(

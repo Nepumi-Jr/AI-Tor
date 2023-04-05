@@ -1,3 +1,4 @@
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/faceImage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,13 +31,13 @@ class _FaceSettingsState extends State<FaceSettings> {
       compressQuality: 100,
       uiSettings: [
         AndroidUiSettings(
-            toolbarTitle: 'Cropper',
+            toolbarTitle: LangMan.get().setting.faceCropperTitle,
             toolbarColor: Theme.of(context).colorScheme.primary,
             toolbarWidgetColor: isDarkMode ? Colors.black : Colors.white,
             initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: true),
         IOSUiSettings(
-          title: 'Cropper',
+          title: LangMan.get().setting.faceCropperTitle,
         ),
         WebUiSettings(
           context: context,
@@ -65,11 +66,11 @@ class _FaceSettingsState extends State<FaceSettings> {
   @override
   Widget build(BuildContext context) {
     List<String> titles = [
-      "Happy face",
-      "Normal face",
-      "Sad face",
-      "Angry face",
-      "Dead face"
+      LangMan.get().setting.faceHappyImage,
+      LangMan.get().setting.faceNormalImage,
+      LangMan.get().setting.faceSadImage,
+      LangMan.get().setting.faceAngryImage,
+      LangMan.get().setting.faceDeadImage
     ];
     return Scaffold(
         appBar: AppBar(title: const Text("Image Setting")),

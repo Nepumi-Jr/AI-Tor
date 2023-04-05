@@ -1,3 +1,4 @@
+import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
 import 'calendar_page.dart';
 
@@ -12,22 +13,23 @@ class InfoPageState extends State<InfoPage> {
     return Scaffold(
       body: SafeArea(
           child: Container(
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.black26 : Colors.white,
-              child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    _icon(),
-                    const Title(titleText: 'ประชุมงาน'),
-                    const ListViews(startDate: '11/03/2566',
-                      startTime: '03:02',
-                      endDate: '12/03/2566',
-                      endTime: '03.02',
-                      timeNoti: '30',
-                      place: 'EN040101',
-                      description: 'อัพเดตความคืบหน้าโปรเจ็ค',),
-                  ])
-          )
-      ),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black26
+                  : Colors.white,
+              child: Column(children: [
+                const SizedBox(height: 20),
+                _icon(),
+                const Title(titleText: 'ประชุมงาน'),
+                const ListViews(
+                  startDate: '11/03/2566',
+                  startTime: '03:02',
+                  endDate: '12/03/2566',
+                  endTime: '03.02',
+                  timeNoti: '30',
+                  place: 'EN040101',
+                  description: 'อัพเดตความคืบหน้าโปรเจ็ค',
+                ),
+              ]))),
     );
   }
 
@@ -36,32 +38,54 @@ class InfoPageState extends State<InfoPage> {
       children: [
         Expanded(
             child: Row(
-              children: [
-                const SizedBox(width: 20,),
-                Container(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: IconButton(onPressed: () {
-                          Navigator.of(context).pop();
-
-                        },
-                        icon: Icon(Icons.close, color: Theme.of(context).colorScheme.primary)))
-              ],
-            )),
+          children: [
+            const SizedBox(
+              width: 20,
+            ),
+            Container(
+                alignment: AlignmentDirectional.centerStart,
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.close,
+                        color: Theme.of(context).colorScheme.primary)))
+          ],
+        )),
         Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(onPressed: null, icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary)),
-                IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Theme.of(context).colorScheme.primary))
-              ]))],
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          IconButton(
+              onPressed: null,
+              icon: Icon(Icons.edit,
+                  color: Theme.of(context).colorScheme.primary)),
+          IconButton(
+              onPressed: null,
+              icon: Icon(Icons.more_vert,
+                  color: Theme.of(context).colorScheme.primary))
+        ]))
+      ],
     );
   }
 }
 
-
 class ListViews extends StatelessWidget {
-  final String startDate, endDate, startTime, endTime, timeNoti, place, description;
-  const ListViews({Key? key, required this.startDate, required this.endDate, required this.startTime, required this.endTime, required this.timeNoti, required this.place, required this.description}): super(key : key);
+  final String startDate,
+      endDate,
+      startTime,
+      endTime,
+      timeNoti,
+      place,
+      description;
+  const ListViews(
+      {Key? key,
+      required this.startDate,
+      required this.endDate,
+      required this.startTime,
+      required this.endTime,
+      required this.timeNoti,
+      required this.place,
+      required this.description})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,17 +103,14 @@ class ListViews extends StatelessWidget {
 
 class Title extends StatelessWidget {
   final String titleText;
-  const Title({Key? key, required this.titleText}): super(key : key);
+  const Title({Key? key, required this.titleText}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: AlignmentDirectional.centerStart,
       margin: const EdgeInsets.only(top: 20, left: 40),
       child: Text(titleText,
-          style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 36
-          )),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 36)),
     );
   }
 }
