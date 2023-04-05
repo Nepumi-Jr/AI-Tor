@@ -1,8 +1,13 @@
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../data/data.dart';
 import 'calendar_page.dart';
 
 class InfoPage extends StatefulWidget {
+  final String idEvent;
+  const InfoPage(this.idEvent, {Key? key}) : super(key: key);
   @override
   InfoPageState createState() => InfoPageState();
 }
@@ -10,6 +15,9 @@ class InfoPage extends StatefulWidget {
 class InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
+    User Udata = Provider.of<User>(context);
+    var activity = Udata.getActivitiesById(widget.idEvent);
+
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -19,15 +27,19 @@ class InfoPageState extends State<InfoPage> {
               child: Column(children: [
                 const SizedBox(height: 20),
                 _icon(),
-                const Title(titleText: 'ประชุมงาน'),
-                const ListViews(
-                  startDate: '11/03/2566',
-                  startTime: '03:02',
-                  endDate: '12/03/2566',
-                  endTime: '03.02',
+                Title(titleText: activity.calendarEvent.summary ?? ''),
+                ListViews(
+                  startDate:
+                      DateFormat('dd/MM/yyyy').format(activity.getEventTime()),
+                  startTime:
+                      DateFormat('HH:mm').format(activity.getEventTime()),
+                  endDate: DateFormat('dd/MM/yyyy')
+                      .format(activity.getEndEventTime()),
+                  endTime:
+                      DateFormat('HH:mm').format(activity.getEndEventTime()),
                   timeNoti: '30',
-                  place: 'EN040101',
-                  description: 'อัพเดตความคืบหน้าโปรเจ็ค',
+                  place: activity.location.name,
+                  description: activity.calendarEvent.description ?? '',
                 ),
               ]))),
     );

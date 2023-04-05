@@ -19,8 +19,10 @@ class BottomBarLangData {
 //? Home Page
 class HomePageLangData {
   final String levelFormat; //! 1: Level, 2: exp, 3:max exp of that level
+  final String unknownLevel;
   final String
       percentFormat; // ! 1:String Percent as Integer range from 0 to 100 (Not including %)
+  final String unknownPercent;
 
   final String commentHappy;
   final String commentNormal;
@@ -35,6 +37,8 @@ class HomePageLangData {
   final String tilesLocation;
   final String tilesTime;
 
+  final String noIncommingEvent;
+
   HomePageLangData(
       {required this.levelFormat,
       required this.percentFormat,
@@ -47,7 +51,10 @@ class HomePageLangData {
       required this.dropDownPriority,
       required this.tilesActivity,
       required this.tilesLocation,
-      required this.tilesTime});
+      required this.tilesTime,
+      required this.unknownLevel,
+      required this.unknownPercent,
+      required this.noIncommingEvent});
 }
 
 //? Calendar Page
@@ -145,7 +152,10 @@ class ENLangData {
           dropDownPriority: "Priority",
           tilesActivity: "Activity",
           tilesLocation: "Location",
-          tilesTime: "Time"),
+          tilesTime: "Time",
+          unknownLevel: "Unknown Level",
+          unknownPercent: "Unknown Accuracy",
+          noIncommingEvent: "No Incomming Event"),
       calendar: CalendarPageLangData(
           alertMoreDetail: "More Detail", alertClose: "Close"),
       info: InfoPageLangData(alertTimeFormat: "%{1} before"),
@@ -190,7 +200,10 @@ class THLangData {
           dropDownPriority: "ความสำคัญ",
           tilesActivity: "กิจกรรม",
           tilesLocation: "สถานที่",
-          tilesTime: "เวลา"),
+          tilesTime: "เวลา",
+          unknownLevel: "ไม่รู้เลเวล",
+          unknownPercent: "ไม่รู้ความแม่นยำ",
+          noIncommingEvent: "ไม่มีกิจกรรมที่จะเกิดขึ้น"),
       calendar: CalendarPageLangData(
           alertMoreDetail: "รายละเอียดเพิ่มเติม", alertClose: "ปิด"),
       info: InfoPageLangData(alertTimeFormat: "%{1}ก่อนกิจกรรม"),

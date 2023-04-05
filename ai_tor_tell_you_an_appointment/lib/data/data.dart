@@ -59,7 +59,7 @@ class User extends ChangeNotifier {
     if (_data.isEmpty) return null;
     int sum = 0;
     for (final e in _data) {
-      sum += e.exp;
+      if (e.attendStatus == AttendStatus.attend) sum += e.exp;
     }
     return sum;
   }
@@ -69,7 +69,7 @@ class User extends ChangeNotifier {
     if (dData.isEmpty) return null;
     int sum = 0;
     for (final e in dData) {
-      sum += e.exp;
+      if (e.attendStatus == AttendStatus.attend) sum += e.exp;
     }
     return sum;
   }
@@ -111,6 +111,25 @@ class User extends ChangeNotifier {
       return null;
     }
     return 100 * attendEvent ~/ allEvent;
+  }
+
+  List<Activities> getIncompleteActivities() {
+    //? or incoming
+    List<Activities> result = [];
+    for (final e in _data) {
+      if (e.attendStatus == AttendStatus.notyet) {
+        result.add(e);
+      }
+    }
+
+    //? sort by time
+    result.sort((a, b) => a.getEventTime().compareTo(b.getEventTime()));
+
+    return result;
+  }
+
+  Activities getActivitiesById(String id) {
+    return _data.firstWhere((element) => element.calendarEvent.id == id);
   }
 
   void addActivities(Activities activities) {
@@ -164,38 +183,57 @@ class User extends ChangeNotifier {
     final authedClient = GoogleAuthClient(await user!.authHeaders);
 
     final calendarAPI = calendar.CalendarApi(authedClient);
-    final events = await calendarAPI.events.list('primary');
-    for (final e in events.items!) {
-      print(">>>>${e.summary}");
-      //? check if event is in database
-      DocumentSnapshot doc = await userData.doc(e.id).get();
-      if (doc.exists) {
-        Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-        _data.add(Activities(
-            exp: data['exp'],
-            location: UserLocation(
-                name: data['locationName'],
-                longtiude: data['longitude'],
-                latitude: data['latitude']),
-            attendStatus: AttendStatus.values[data['attendStatus']],
-            calendarEvent: e));
-      } else {
-        //? if not add to database
-        var dateTime = e.start!.dateTime ?? e.start!.date;
-        var thatActivity = Activities(
-            exp: 43 + Random().nextInt(3),
-            location: UserLocation(name: "0", longtiude: 0, latitude: 0),
-            attendStatus: AttendStatus.notyet,
-            calendarEvent: e);
-        if (dateTime!.isBefore(DateTime.now())) {
-          thatActivity.attendStatus = AttendStatus.unknown;
-          thatActivity.exp = 0;
+    //? get all calendarID list
+    final calendarList = (await calendarAPI.calendarList.list()).items!;
+
+    //? get list of doc id
+    List<String> querySnapshot =
+        (await userData.get()).docs.toList().map((e) => e.id).toList();
+
+    for (final calendarList in calendarList) {
+      print(">>>>>>>GET ${calendarList}");
+      print(">>>>>>>GET ${calendarList.id}");
+      print(">>>>>>>GET ${calendarList.kind}");
+      print(">>>>>>>GET ${calendarList.accessRole}");
+
+      if (calendarList.accessRole != "owner" &&
+          calendarList.accessRole != "writer") continue;
+
+      final events = await calendarAPI.events.list(calendarList.id!);
+      for (final e in events.items!) {
+        //? check if event is in database
+        DocumentSnapshot doc = await userData.doc(e.id).get();
+
+        if (querySnapshot.contains(e.id)) {
+          Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+          _data.add(Activities(
+              exp: data['exp'],
+              location: UserLocation(
+                  name: data['locationName'],
+                  longtiude: data['longtiude'],
+                  latitude: data['latitude']),
+              attendStatus: AttendStatus.values[data['attendStatus']],
+              calendarEvent: e));
+        } else {
+          //? if not add to database
+          var dateTime = e.start!.dateTime ?? e.start!.date;
+          var thatActivity = Activities(
+              exp: 43 + Random().nextInt(3),
+              location: UserLocation(name: "0", longtiude: 0, latitude: 0),
+              attendStatus: AttendStatus.notyet,
+              calendarEvent: e);
+          if (dateTime!.isBefore(DateTime.now())) {
+            thatActivity.attendStatus = AttendStatus.unknown;
+            thatActivity.exp = 0;
+          }
+          _data.add(thatActivity);
+          userData.doc(e.id).set(thatActivity.toJson());
         }
-        _data.add(thatActivity);
-        userData.doc(e.id).set(thatActivity.toJson());
       }
     }
     notifyListeners();
+    print(
+        ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DONE");
   }
 }
 
@@ -216,7 +254,22 @@ class Activities {
   }
 
   DateTime getEventTime() {
-    return calendarEvent.start!.dateTime!;
+    var dateTimeData =
+        calendarEvent.start!.dateTime ?? calendarEvent.start!.date;
+    //? offset with device timezone
+    DateTime timeNow = DateTime.now();
+    dateTimeData = (dateTimeData ?? timeNow)
+        .add(Duration(hours: timeNow.timeZoneOffset.inHours));
+    return dateTimeData;
+  }
+
+  DateTime getEndEventTime() {
+    var dateTimeData = calendarEvent.end!.dateTime ?? calendarEvent.end!.date;
+    //? offset with device timezone
+    DateTime timeNow = DateTime.now();
+    dateTimeData = (dateTimeData ?? timeNow)
+        .add(Duration(hours: timeNow.timeZoneOffset.inHours));
+    return dateTimeData;
   }
 
   Map<String, dynamic> toJson() {
