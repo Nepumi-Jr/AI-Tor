@@ -1,5 +1,9 @@
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
+import 'add_page.dart';
+import 'edit_page.dart';
+const List<String> dateOfWeek = <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const List<String> months = <String>['January','February','March','April','May','June','July','August','September','October','November','December'];
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/data.dart';
@@ -13,11 +17,23 @@ class InfoPage extends StatefulWidget {
 }
 
 class InfoPageState extends State<InfoPage> {
+  late DateTime _dateTimeOfStart;
+  late DateTime _dateTimeOfEnd;
+  late TimeOfDay timeOfStart;
+  late TimeOfDay timeOfEnd;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _dateTimeOfStart = activity.getEventTime();
+    _dateTimeOfEnd = activity.getEndEventTime();
+    timeOfStart = activity.getEventTime();
+    timeOfEnd = activity.getEndEventTime();
+    _controller = TextEditingController(text: widget.title);
+  }
+
   @override
   Widget build(BuildContext context) {
-    User Udata = Provider.of<User>(context);
-    var activity = Udata.getActivitiesById(widget.idEvent);
-
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -27,19 +43,15 @@ class InfoPageState extends State<InfoPage> {
               child: Column(children: [
                 const SizedBox(height: 20),
                 _icon(),
-                Title(titleText: activity.calendarEvent.summary ?? ''),
-                ListViews(
-                  startDate:
-                      DateFormat('dd/MM/yyyy').format(activity.getEventTime()),
-                  startTime:
-                      DateFormat('HH:mm').format(activity.getEventTime()),
-                  endDate: DateFormat('dd/MM/yyyy')
-                      .format(activity.getEndEventTime()),
-                  endTime:
-                      DateFormat('HH:mm').format(activity.getEndEventTime()),
+                const Title(titleText: 'ประชุมงาน'),
+                const ListViews(
+                  startDate: '11/03/2566',
+                  startTime: '03:02',
+                  endDate: '12/03/2566',
+                  endTime: '03.02',
                   timeNoti: '30',
-                  place: activity.location.name,
-                  description: activity.calendarEvent.description ?? '',
+                  place: 'EN040101',
+                  description: 'อัพเดตความคืบหน้าโปรเจ็ค',
                 ),
               ]))),
     );
@@ -50,66 +62,71 @@ class InfoPageState extends State<InfoPage> {
       children: [
         Expanded(
             child: Row(
-          children: [
-            const SizedBox(
-              width: 20,
-            ),
-            Container(
-                alignment: AlignmentDirectional.centerStart,
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.close,
-                        color: Theme.of(context).colorScheme.primary)))
-          ],
-        )),
+              children: [
+                const SizedBox(width: 20),
+                Container(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();},
+                        icon: Icon(Icons.close,
+                            color: Theme.of(context).colorScheme.primary)))
+              ],
+            )),
         Expanded(
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          IconButton(
-              onPressed: null,
-              icon: Icon(Icons.edit,
-                  color: Theme.of(context).colorScheme.primary)),
-          IconButton(
-              onPressed: null,
-              icon: Icon(Icons.more_vert,
-                  color: Theme.of(context).colorScheme.primary))
-        ]))
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SafeArea(
+                        child: EditPage(
+                            title: widget.title,
+                            timeOfDayStarts: widget.timeOfDayStarts,
+                            timeOfDayEnds: widget.timeOfDayEnds,
+                            dateTimeOfStart: widget.dateTimeOfStart,
+                            dateTimeOfEnd: widget.dateTimeOfEnd,
+                            description: widget.description,
+                            location: widget.location))));
+                  },
+                  icon: Icon(Icons.edit,
+                      color: Theme.of(context).colorScheme.primary)),
+              const SizedBox(width: 25)
+            ]))
       ],
     );
   }
-}
-
-class ListViews extends StatelessWidget {
-  final String startDate,
-      endDate,
-      startTime,
-      endTime,
-      timeNoti,
-      place,
-      description;
-  const ListViews(
-      {Key? key,
-      required this.startDate,
-      required this.endDate,
-      required this.startTime,
-      required this.endTime,
-      required this.timeNoti,
-      required this.place,
-      required this.description})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20, left: 40),
-      child: Column(
-          children: [
-            ListTile(leading: Icon(Icons.arrow_right, color: Theme.of(context).colorScheme.primary,), title: Text('$startDate \nเวลา $startTime - \n$endDate \nเวลา $endTime', style: const TextStyle(fontSize: 16),)),
-            ListTile(leading: Icon(Icons.notifications, color: Theme.of(context).colorScheme.primary), title: Text('$timeNoti นาทีก่อนกิจกรรม', style: const TextStyle(fontSize: 18)),),
-            ListTile(leading: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary), title: Text(place, style: const TextStyle(fontSize: 16))),
-            ListTile(leading: Icon(Icons.list, color: Theme.of(context).colorScheme.primary), title: Text(description, style: const TextStyle(fontSize: 16))),
-          ]));
+    // start DATE/TIME
+    final String hoursOfStart = timeOfStart.hour.toString().padLeft(2, '0');
+    final minutesOfStart = timeOfStart.minute.toString().padLeft(2, '0');
+    final dateOfStart = _dateTimeOfStart.day;
+    final monthOfStart = _dateTimeOfStart.month.toString();
+
+    // end DATE/TIME
+    final hoursOfEnd = timeOfEnd.hour.toString().padLeft(2, '0');
+    final minutesOfEnd = timeOfEnd.minute.toString().padLeft(2, '0');
+    final dateOfEnd = _dateTimeOfEnd.day;
+    final monthOfEnd = _dateTimeOfEnd.month.toString();
+
+    return Scaffold(
+        body: SafeArea(
+            child: Container(
+              color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black26
+              : Colors.white,
+                child: Column(children: [
+                  const SizedBox(height: 20),
+                  _icon(),
+                   Container(
+                    margin: const EdgeInsets.only(top: 20, left: 40),
+                    child: Column(
+                        children: [
+                          ListTile(leading: Icon(Icons.arrow_right, color: Theme.of(context).colorScheme.primary,), title: Text('$dateOfStart/$monthOfStart/2023 \nเวลา $hoursOfStart:$minutesOfStart - \n$dateOfEnd/$monthOfEnd/2023 \nเวลา $hoursOfEnd:$minutesOfEnd', style: const TextStyle(fontSize: 16),)),
+                          ListTile(leading: Icon(Icons.notifications, color: Theme.of(context).colorScheme.primary), title: const Text('30 นาทีก่อนกิจกรรม', style: TextStyle(fontSize: 18)),),
+                          ListTile(leading: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary), title: Text(widget.location, style: const TextStyle(fontSize: 16))),
+                          ListTile(leading: Icon(Icons.list, color: Theme.of(context).colorScheme.primary), title: Text(widget.description, style: const TextStyle(fontSize: 16))),
+                        ]))]))));
   }
 }
 
