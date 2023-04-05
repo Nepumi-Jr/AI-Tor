@@ -34,10 +34,10 @@ class MyApp extends StatelessWidget {
               darkTheme: themeProvider.darkTheme,
               debugShowCheckedModeBanner: false,
               routes: {
-                '/': (context) => SafeArea(child: LoginPage()),
+                '/': (context) => SafeArea(child: LogInPage()),
                 '/home': (context) => SafeArea(child: HomePage()),
                 '/calendar': (context) => SafeArea(child: CalendarPage()),
-                '/graph': (context) => SafeArea(child:  GraphPage()),
+                '/graph': (context) => SafeArea(child: GraphPage()),
                 '/settings': (context) => SafeArea(child: SettingsPage()),
               },
             ),

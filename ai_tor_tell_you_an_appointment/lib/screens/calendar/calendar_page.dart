@@ -99,6 +99,7 @@ class CalendarPageState extends State<CalendarPage> {
                                   LangMan.get().calendar.alertMoreDetail,
                                   style: const TextStyle(color: Colors.grey)),
                               onTap: () {
+                                print(">>>>>>>>> ID: ${appointmentDetails.id}");
                                 Navigator.of(context).pop();
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -143,49 +144,53 @@ class CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Consumer<User>(
-          builder: (context, uData, child) {
-            List<Appointment> appointments = <Appointment>[];
-            uData.getActivities().forEach((element) {
-              appointments.add(Appointment(
-                  startTime: element.getEventTime(),
-                  endTime: element.getEndEventTime(),
-                  subject: element.calendarEvent.summary ?? '',
-                  color: Colors.blue,
-                  startTimeZone: '',
-                  endTimeZone: '',
-                  id: element.calendarEvent.id));
-            });
+        body: SafeArea(
+          child: Consumer<User>(
+            builder: (context, uData, child) {
+              List<Appointment> appointments = <Appointment>[];
+              uData.getActivities().forEach((element) {
+                appointments.add(Appointment(
+                    startTime: element.getEventTime(),
+                    endTime: element.getEndEventTime(),
+                    subject: element.calendarEvent.summary ?? '',
+                    color: Colors.blue,
+                    startTimeZone: '',
+                    endTimeZone: '',
+                    id: element.calendarEvent.id));
+              });
 
-            return SfCalendar(
-              view: CalendarView.month,
-              allowedViews: const [
-                CalendarView.day,
-                CalendarView.week,
-                CalendarView.month
-              ],
-              headerStyle:
-                  const CalendarHeaderStyle(textAlign: TextAlign.center),
-              headerHeight: 60,
-              onTap: calendarTapped,
-              showNavigationArrow: true,
-              dataSource: _AppointmentDataSource(appointments),
-            );
-          },
+              return SfCalendar(
+                view: CalendarView.month,
+                allowedViews: const [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.month
+                ],
+                headerStyle:
+                    const CalendarHeaderStyle(textAlign: TextAlign.center),
+                headerHeight: 60,
+                onTap: calendarTapped,
+                showNavigationArrow: true,
+                dataSource: _AppointmentDataSource(appointments),
+              );
+            },
+          ),
         ),
-      ),
-      bottomNavigationBar: const BottomNavigation(focused: BottomPages.calendar,),
+        bottomNavigationBar: const BottomNavigation(
+          focused: BottomPages.calendar,
+        ),
         floatingActionButton: Builder(builder: (context) {
           return FloatingActionButton(
-            backgroundColor: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
-            child: Icon(
-              Icons.add, color: Theme.of(context).colorScheme.primary,
-            ),
-            onPressed: () =>
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SafeArea(child: AddPage()))));
-        })
-    );
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color.fromRGBO(66, 66, 66, 1)
+                  : Colors.white,
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SafeArea(child: AddPage()))));
+        }));
   }
 }
 

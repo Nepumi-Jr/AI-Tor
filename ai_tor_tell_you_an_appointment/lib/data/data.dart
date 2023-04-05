@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 const _scope = <String>[
   'email',
   'https://www.googleapis.com/auth/contacts.readonly',
@@ -29,6 +31,8 @@ class User extends ChangeNotifier {
 
   int? uid;
   String? name;
+  bool isLoadingData = false;
+  List<Activities> _data = [];
   User() {
     if (Platform.isIOS) {
       _googleSignIn = GoogleSignIn(
@@ -37,7 +41,6 @@ class User extends ChangeNotifier {
       );
     }
   }
-  List<Activities> _data = [];
 
   List<Activities> getActivities() {
     return _data;
@@ -45,7 +48,8 @@ class User extends ChangeNotifier {
 
   List<Activities> getActivitiesAtDay(DateTime dateTime) {
     List<Activities> result = [];
-    for (final e in _data) {
+    var ddata = getActivities();
+    for (final e in ddata) {
       if (e.getEventTime().day == dateTime.day &&
           e.getEventTime().month == dateTime.month &&
           e.getEventTime().year == dateTime.year) {
@@ -58,7 +62,8 @@ class User extends ChangeNotifier {
   int? getExp() {
     if (_data.isEmpty) return null;
     int sum = 0;
-    for (final e in _data) {
+    var ddata = getActivities();
+    for (final e in ddata) {
       if (e.attendStatus == AttendStatus.attend) sum += e.exp;
     }
     return sum;
@@ -78,7 +83,8 @@ class User extends ChangeNotifier {
     if (_data.isEmpty) return null;
     int allEvent = 0;
     int attendEvent = 0;
-    for (final e in _data) {
+    var ddata = getActivities();
+    for (final e in ddata) {
       if (e.attendStatus == AttendStatus.attend ||
           e.attendStatus == AttendStatus.failed) {
         allEvent++;
@@ -116,7 +122,8 @@ class User extends ChangeNotifier {
   List<Activities> getIncompleteActivities() {
     //? or incoming
     List<Activities> result = [];
-    for (final e in _data) {
+    var ddata = getActivities();
+    for (final e in ddata) {
       if (e.attendStatus == AttendStatus.notyet) {
         result.add(e);
       }
@@ -128,29 +135,32 @@ class User extends ChangeNotifier {
     return result;
   }
 
+  Future<void> dataGetsUpdate() async {
+    notifyListeners();
+  }
+
   Activities getActivitiesById(String id) {
     return _data.firstWhere((element) => element.calendarEvent.id == id);
   }
 
   void addActivities(Activities activities) {
-    _data.add(activities);
+    //_data.add(activities);
     //TODO : add to database
     //TODO : add to Google calendar
-    notifyListeners();
+    dataGetsUpdate();
   }
 
   void removeActivities(String id) {
-    _data.removeAt(
-        _data.indexWhere((element) => element.calendarEvent.id == id));
+    _data.remove(id);
     //TODO : add to database
     //TODO : add to Google calendar
-    notifyListeners();
+    dataGetsUpdate();
   }
 
   Future<void> doLogin() async {
     await _googleSignIn.signIn().then((value) {
       user = value;
-      initData();
+      if (user != null) initData();
     }).catchError((error) {
       print("!!!!!!!!!!!!แตก $error");
     });
@@ -159,9 +169,7 @@ class User extends ChangeNotifier {
   Future<void> doLoginSilent() async {
     await _googleSignIn.signInSilently().then((value) {
       user = value;
-      initData();
-    }).catchError((error) {
-      print("!!!!!!!!!!!!แตก $error");
+      if (user != null) initData();
     });
   }
 
@@ -169,13 +177,11 @@ class User extends ChangeNotifier {
     await _googleSignIn.signOut().then((value) {
       user = null;
       _data = [];
-      notifyListeners();
-    }).catchError((error) {
-      print("!!!!!!!!!!!!แตก $error");
     });
   }
 
   Future<void> initData() async {
+    isLoadingData = true;
     name = user!.displayName;
     CollectionReference userData =
         FirebaseFirestore.instance.collection(user!.email);
@@ -189,6 +195,10 @@ class User extends ChangeNotifier {
     //? get list of doc id
     List<String> querySnapshot =
         (await userData.get()).docs.toList().map((e) => e.id).toList();
+    Set<String> querySnapshotSet = {};
+    for (final e in querySnapshot) {
+      querySnapshotSet.add(e);
+    }
 
     for (final calendarList in calendarList) {
       print(">>>>>>>GET ${calendarList}");
@@ -199,12 +209,15 @@ class User extends ChangeNotifier {
       if (calendarList.accessRole != "owner" &&
           calendarList.accessRole != "writer") continue;
 
-      final events = await calendarAPI.events.list(calendarList.id!);
+      final events =
+          await calendarAPI.events.list(calendarList.id!, maxResults: 2000);
       for (final e in events.items!) {
+        print(
+            ">>>>>>>GET ${e.creator?.displayName} -> ${e.summary} -> ${e.start}");
         //? check if event is in database
         DocumentSnapshot doc = await userData.doc(e.id).get();
 
-        if (querySnapshot.contains(e.id)) {
+        if (querySnapshotSet.contains(e.id)) {
           Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
           _data.add(Activities(
               exp: data['exp'],
@@ -216,6 +229,7 @@ class User extends ChangeNotifier {
               calendarEvent: e));
         } else {
           //? if not add to database
+          if (e.start == null) continue;
           var dateTime = e.start!.dateTime ?? e.start!.date;
           var thatActivity = Activities(
               exp: 43 + Random().nextInt(3),
@@ -231,9 +245,15 @@ class User extends ChangeNotifier {
         }
       }
     }
-    notifyListeners();
+    dataGetsUpdate();
     print(
         ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DONE");
+    isLoadingData = false;
+  }
+
+  Future<void> reloadData() async {
+    _data = [];
+    initData();
   }
 }
 

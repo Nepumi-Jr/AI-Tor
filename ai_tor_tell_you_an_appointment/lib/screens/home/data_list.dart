@@ -6,12 +6,7 @@ import 'data.dart';
 import 'list_build.dart';
 import 'package:intl/intl.dart';
 
-class DataList extends StatefulWidget {
-  @override
-  DataListState createState() => DataListState();
-}
-
-class DataListState extends State<DataList> {
+class DataList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<User>(
@@ -29,9 +24,13 @@ class DataListState extends State<DataList> {
               ' - ' +
               DateFormat('HH:mm').format(aData.getEndEventTime()));
           activity_data.add(aData.calendarEvent.summary.toString());
-          place_data.add(aData.location.name);
+          place_data.add(aData.calendarEvent.location ?? '??? ');
         }
-
+        if (uData.isLoadingData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Container(
           child: ListCreate(
             cardData: CardData(date_data, activity_data, time_data, place_data),

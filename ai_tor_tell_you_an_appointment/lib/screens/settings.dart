@@ -5,6 +5,8 @@ import 'package:ai_tor_tell_you_an_appointment/screens/color_theme.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:ai_tor_tell_you_an_appointment/screens/about_page.dart';
+import 'package:provider/provider.dart';
+import '../data/data.dart';
 import '../theme_style_provider.dart';
 import 'color_theme.dart';
 
@@ -24,13 +26,15 @@ class _SettingsPage extends State<SettingsPage> {
   }
 
   Widget _buildSettingRow(
-      {required String text, required IconData icon, IconData? arrow = Icons.arrow_forward_ios, void Function()? onTap}) {
+      {required String text,
+      required IconData icon,
+      IconData? arrow = Icons.arrow_forward_ios,
+      void Function()? onTap}) {
     return ListTile(
       leading: Icon(icon),
       iconColor: Theme.of(context).colorScheme.primary,
       title: Text(text),
-      trailing:
-        Icon(arrow), //, color: StyleData.primaryColor),
+      trailing: Icon(arrow), //, color: StyleData.primaryColor),
       onTap: onTap,
     );
   }
@@ -62,13 +66,33 @@ class _SettingsPage extends State<SettingsPage> {
             ),
             const SizedBox(height: 12.0),
             _buildSettingRow(
-              text: 'Log out',
-              icon: Icons.logout,
-              onTap: () {
-                // TODO: LOGOUT
-              },
-              arrow: null
-            ),
+                text: 'Log out',
+                icon: Icons.logout,
+                onTap: () {
+                  //? display alert dialog
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Logout...please wait'),
+                        content: Container(
+                          width: 100,
+                          height: 100,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                      );
+                    },
+                    barrierDismissible: false,
+                  );
+
+                  User pData = Provider.of<User>(context, listen: false);
+                  pData.doLogout().then((value) => Navigator.of(context)
+                      .pushNamedAndRemoveUntil(
+                          '/', (Route<dynamic> route) => false));
+                },
+                arrow: null),
           ],
         ),
       ),
