@@ -21,7 +21,18 @@ class HomePageState extends State<HomePage> {
           color: Theme.of(context).brightness == Brightness.dark ? Colors.black45 : Colors.grey[400],
           child: Column(
               children: [
-                const UserInfoCard(),
+                const UserInfo(),
+                Container(
+                    alignment: Alignment.centerRight,
+                    margin: const EdgeInsets.only(bottom: 2),
+                    color: Theme.of(context).brightness == Brightness.dark ? const Color.fromRGBO(66, 66, 66, 1) : Colors.white,
+                    child:
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            // _dropdown(),
+                            const SizedBox(height: 20)]
+                    )),
                 Expanded(
                     child: DataList())
               ]),
