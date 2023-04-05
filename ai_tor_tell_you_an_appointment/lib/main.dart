@@ -1,7 +1,3 @@
-//TODO: This is just mockup main.dart file.
-//* Feel free to change it to your needs.
-//* You can also remove it if you don't need it.
-
 import 'package:ai_tor_tell_you_an_appointment/theme_style_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +5,8 @@ import 'backend/faceImage.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ai_tor_tell_you_an_appointment/firebase_options.dart';
+
+import 'package:ai_tor_tell_you_an_appointment/data/data.dart';
 
 import 'screens/all_page.dart';
 
@@ -30,8 +28,8 @@ class MyApp extends StatelessWidget {
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
           FaceImage.loadSetImage();
-          return ChangeNotifierProvider(
-            create: (context) => SomeClass(),
+          return ChangeNotifierProvider<User>(
+            create: (context) => User(),
             child: MaterialApp(
               title: 'Flutter Demo',
               themeMode: themeProvider.themeMode,

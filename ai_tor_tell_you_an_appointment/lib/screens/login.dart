@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 get_dddata().then((value) {
-                  print(value.data());
+                  print((value.data() as Map<String, dynamic>)["1"]);
                 });
 
                 //Navigator.pushNamed(context, '/calendar');
