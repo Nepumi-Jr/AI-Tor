@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "980513016939",
+    "project_id": "ai-tor-tell-you-an-appointment",
+    "storage_bucket": "ai-tor-tell-you-an-appointment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980513016939:android:8e16f4a2620927f774352e",
+        "android_client_info": {
+          "package_name": "com.lts.ai_tor_tell_you_an_appointment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980513016939-cg0h8vv93pelv6ms2k9s71ihahfft06q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLu_O8sQeXhnYbiAuYNOrv2PjzJMgdacw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980513016939-cg0h8vv93pelv6ms2k9s71ihahfft06q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "980513016939-of3n4bvg8k9b47cq51gk1vuogfqkuroo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ai_tor_tell_you_an_appointment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

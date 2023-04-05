@@ -6,8 +6,6 @@ import 'backend/faceImage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ai_tor_tell_you_an_appointment/firebase_options.dart';
 
-import 'package:ai_tor_tell_you_an_appointment/data/data.dart';
-
 import 'screens/all_page.dart';
 
 Future<void> main() async {
