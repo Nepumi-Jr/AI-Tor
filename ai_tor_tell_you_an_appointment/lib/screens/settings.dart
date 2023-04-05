@@ -5,14 +5,14 @@ import 'package:ai_tor_tell_you_an_appointment/screens/faceSetting.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import '../theme_style_provider.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  _Settings createState() => _Settings();
+  _SettingsPage createState() => _SettingsPage();
 }
 
-class _Settings extends State<Settings> {
+class _SettingsPage extends State<SettingsPage> {
   Color pickerColor = Colors.tealAccent; // = StyleData.primaryColor;
   ThemeMode pickThemeMode = ThemeMode.light; // = StyleData.themeMode;
 
