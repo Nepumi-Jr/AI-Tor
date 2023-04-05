@@ -179,6 +179,41 @@ class User extends ChangeNotifier {
     dataGetsUpdate();
   }
 
+  Future<void> editActivities(String id, String title, DateTime dateStart,
+      DateTime dateEnd, String description, String location) async {
+    //? add to Google calendar first
+    final authedClient = GoogleAuthClient(await user!.authHeaders);
+    final calendarAPI = calendar.CalendarApi(authedClient);
+    //? add new event to calendar
+    final newEvent = calendar.Event();
+    newEvent.summary = title;
+    newEvent.description = description;
+    newEvent.start =
+        EventDateTime(dateTime: dateStart, timeZone: 'Asia/Bangkok');
+    newEvent.end = EventDateTime(dateTime: dateEnd, timeZone: 'Asia/Bangkok');
+    newEvent.id = id;
+
+    newEvent.location = location;
+
+    //? push to google calendar
+    final event = await calendarAPI.events.patch(newEvent, 'primary', id);
+
+    //? add to local data
+    var newActivity = Activities(
+        attendStatus: AttendStatus.notyet,
+        calendarEvent: event,
+        exp: 43 + Random().nextInt(3),
+        location: UserLocation(name: location, latitude: 0, longtiude: 0));
+    _data.remove(getActivitiesById(id));
+    _data.add(newActivity);
+
+    CollectionReference userData =
+        FirebaseFirestore.instance.collection(user!.email);
+    DocumentSnapshot doc = await userData.doc(event.id).get();
+    userData.doc(event.id).set(newActivity.toJson());
+    dataGetsUpdate();
+  }
+
   void removeActivities(String id) {
     _data.remove(id);
     //TODO : add to database
