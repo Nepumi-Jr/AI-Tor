@@ -110,97 +110,95 @@ class _GraphPageState extends State<GraphPage> {
           // title: const Text("Statistic"),
           // ),
           body: Container(
-            color: Colors.yellow[100],
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.black45 : Colors.grey[400],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
+                Expanded(child: Container(
                   height: 450,
-                  margin: const EdgeInsets.only(left: 5, right: 5),
+                  margin: const EdgeInsets.only(top: 10,left: 10, right: 10),
                   // padding: const EdgeInsets.only(bottom: 100),
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),              
-                      //child: 
+                      padding: const EdgeInsets.all(8.0),
+                      //child:
                       child: SfCartesianChart(
-                      //backgroundColor: StyleData.backgroundColor,
-                      title: ChartTitle(text: thisChartType1.name), //graph name
-                      //legend: Legend(isVisible: true),                                        //icon บนกราฟ
-                      tooltipBehavior: TooltipBehavior(enable: true), //click to help user what it do
-                      series: <ChartSeries>[
-                        ColumnSeries<TimeData, DateTime>(
-                          name: 'Time',
-                          dataSource: _chartData,
-                          xValueMapper: (TimeData time, _) => time.dateTime,
-                          yValueMapper: (TimeData time, _) => time.time,
-                          dataLabelSettings:
-                              DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
-                          enableTooltip: true,
-                          //color: StyleData.primaryColor
-                        )
-                      ],
-                      primaryXAxis: DateTimeCategoryAxis(
+                        //backgroundColor: StyleData.backgroundColor,
+                        title: ChartTitle(text: thisChartType1.name), //graph name
+                        //legend: Legend(isVisible: true),                                        //icon บนกราฟ
+                        tooltipBehavior: TooltipBehavior(enable: true), //click to help user what it do
+                        series: <ChartSeries>[
+                          ColumnSeries<TimeData, DateTime>(
+                            name: 'Time',
+                            dataSource: _chartData,
+                            xValueMapper: (TimeData time, _) => time.dateTime,
+                            yValueMapper: (TimeData time, _) => time.time,
+                            dataLabelSettings:
+                            const DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
+                            enableTooltip: true,
+                            color: Theme.of(context).colorScheme.primary
+                          )
+                        ],
+                        primaryXAxis: DateTimeCategoryAxis(
                           // intervalType: DateTimeIntervalType.days,
-                          interval: 1), //แสดงชื่อของ bar นั้นๆ
-                      //primaryYAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift,
-                      primaryYAxis: NumericAxis(
-                        minimum: 0, maximum: 1, interval: 0.25,
-                        edgeLabelPlacement: EdgeLabelPlacement.shift,
-                        //numberFormat: NumberFormat.decimalPercentPattern(decimalDigits: 0),
-                        //title: AxisTitle(text: 'Success Rate'),
+                            interval: 1), //แสดงชื่อของ bar นั้นๆ
+                        //primaryYAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift,
+                        primaryYAxis: NumericAxis(
+                          minimum: 0, maximum: 1, interval: 0.25,
+                          edgeLabelPlacement: EdgeLabelPlacement.shift,
+                          //numberFormat: NumberFormat.decimalPercentPattern(decimalDigits: 0),
+                          //title: AxisTitle(text: 'Success Rate'),
+                        ),
                       ),
                     ),
-                    ),
                   ),
-                ),
-                Container(
+                )),
+                Expanded(child: Container(
                   height: 200, //200
-                  margin: const EdgeInsets.only(top: 15, left: 5, right: 5),
+                  margin: const EdgeInsets.only(top: 15, left: 10, right: 10,bottom: 15),
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       // child: SfCartesianChart()
                       child: SfCartesianChart(
-                      //backgroundColor: StyleData.backgroundColor,
-                      //title: ChartTitle(text: thisChartType1.name), //graph name
-                      //legend: Legend(isVisible: true),                                        //icon บนกราฟ
-                      tooltipBehavior: TooltipBehavior(enable: true), //click to help user what it do
-                      series: <ChartSeries>[
-                        LineSeries<TimeData, DateTime>(
-                          name: 'Time',
-                          dataSource: _chartData,
-                          xValueMapper: (TimeData time, _) => time.dateTime,
-                          yValueMapper: (TimeData time, _) => time.time,
-                          dataLabelSettings:
-                              DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
-                          enableTooltip: true,
-                          //color: StyleData.primaryColor
-                        )
-                      ],
-                      primaryXAxis: DateTimeAxis(), //แสดงชื่อของ bar นั้นๆ
-                      //primaryYAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift,
-                      primaryYAxis: NumericAxis(
-                        minimum: 0, maximum: 1, interval: 0.5,
-                        edgeLabelPlacement: EdgeLabelPlacement.shift,
-                        numberFormat: NumberFormat.decimalPercentPattern(
-                            decimalDigits: 0), //ต้อง import init
-                        //title: AxisTitle(text: 'Success Rate'),
+                        //backgroundColor: StyleData.backgroundColor,
+                        //title: ChartTitle(text: thisChartType1.name), //graph name
+                        //legend: Legend(isVisible: true),                                        //icon บนกราฟ
+                        tooltipBehavior: TooltipBehavior(enable: true), //click to help user what it do
+                        series: <ChartSeries>[
+                          LineSeries<TimeData, DateTime>(
+                            name: 'Time',
+                            dataSource: _chartData,
+                            xValueMapper: (TimeData time, _) => time.dateTime,
+                            yValueMapper: (TimeData time, _) => time.time,
+                            dataLabelSettings:
+                            const DataLabelSettings(isVisible: true), //แสดงเลขบนกราฟ
+                            enableTooltip: true,
+                            color: Theme.of(context).colorScheme.primary
+                          )
+                        ],
+                        primaryXAxis: DateTimeAxis(), //แสดงชื่อของ bar นั้นๆ
+                        //primaryYAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift,
+                        primaryYAxis: NumericAxis(
+                          minimum: 0, maximum: 1, interval: 0.5,
+                          edgeLabelPlacement: EdgeLabelPlacement.shift,
+                          numberFormat: NumberFormat.decimalPercentPattern(
+                              decimalDigits: 0), //ต้อง import init
+                          //title: AxisTitle(text: 'Success Rate'),
+                        ),
                       ),
                     ),
-                    ),
                   ),
-                ),
+                )),
               ],
             ),
           ),
           bottomNavigationBar:
-              BottomNavigation(focused: BottomPages.statistics),
+              const BottomNavigation(focused: BottomPages.statistics),
           floatingActionButton: Builder(builder: (context) {
             return FloatingActionButton(
               child: const Icon(

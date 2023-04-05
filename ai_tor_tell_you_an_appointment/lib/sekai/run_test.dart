@@ -80,8 +80,8 @@ class _RunTESTState extends State<RunTEST> {
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Padding(
+                    shadowColor: const Color(0x802196F3),
+                    child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       // child: SfCartesianChart()
                       child: DateGraphContainer(title: "graph"),
@@ -94,8 +94,8 @@ class _RunTESTState extends State<RunTEST> {
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Padding(
+                    shadowColor: const Color(0x802196F3),
+                    child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       // child: SfCartesianChart()
                       child: LineGraphContainer(title: "graph"),
@@ -109,7 +109,7 @@ class _RunTESTState extends State<RunTEST> {
              ],
             ),
           ),
-          bottomNavigationBar: BottomNavigation(focused: BottomPages.statistics),
+          bottomNavigationBar: const BottomNavigation(focused: BottomPages.statistics),
           floatingActionButton: Builder(builder: (context) {
             return FloatingActionButton(
               child: const Icon(Icons.view_day_outlined),
@@ -122,7 +122,7 @@ class _RunTESTState extends State<RunTEST> {
 }
 
 class DateGraphContainer extends StatefulWidget {
-  DateGraphContainer({Key? key, required this.title}) : super(key: key);
+  const DateGraphContainer({Key? key, required this.title}) : super(key: key);
   final String title;
   
   @override
@@ -167,7 +167,7 @@ class _DateGraphContainer extends State<DateGraphContainer> {
           dataSource: _chartData,
           xValueMapper: (TimeData time, _) => time.dateTime,
           yValueMapper: (TimeData time, _) => time.time,
-          dataLabelSettings: DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
+          dataLabelSettings: const DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
           enableTooltip: true,
           //color: StyleData.primaryColor
         )
@@ -208,7 +208,7 @@ class TimeData{
 }
 
 class LineGraphContainer extends StatefulWidget {
-  LineGraphContainer({Key? key, required this.title}) : super(key: key);
+  const LineGraphContainer({Key? key, required this.title}) : super(key: key);
   final String title;
   
   @override
@@ -253,7 +253,7 @@ class _LineGraphContainer extends State<LineGraphContainer> {
           dataSource: _chartData,
           xValueMapper: (TimeData time, _) => time.dateTime,
           yValueMapper: (TimeData time, _) => time.time,
-          dataLabelSettings: DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
+          dataLabelSettings: const DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
           enableTooltip: true,
           //color: StyleData.primaryColor
         )

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:syncfusion_flutter_charts/charts.dart';
 import '../bottomNavigation.dart';
 
 import 'column_date_container.dart';
@@ -82,8 +81,8 @@ class _RunAppState extends State<RunApp> {
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Padding(
+                    shadowColor: const Color(0x802196F3),
+                    child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       // child: SfCartesianChart()
                       child: DateGraphContainer(title: "graph"),
@@ -96,8 +95,8 @@ class _RunAppState extends State<RunApp> {
                   child: Material(
                     elevation: 4.0,
                     borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Padding(
+                    shadowColor: const Color(0x802196F3),
+                    child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       // child: SfCartesianChart()
                       child: LineGraphContainer(title: "graph"),
@@ -111,7 +110,7 @@ class _RunAppState extends State<RunApp> {
              ],
             ),
           ),
-          bottomNavigationBar: BottomNavigation(focused: BottomPages.statistics),
+          bottomNavigationBar: const BottomNavigation(focused: BottomPages.statistics),
         )
         );
   }

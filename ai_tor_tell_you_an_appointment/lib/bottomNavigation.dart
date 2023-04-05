@@ -1,3 +1,7 @@
+import 'package:ai_tor_tell_you_an_appointment/screens/calendar/calendar_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/home/home_page.dart';
+import 'package:ai_tor_tell_you_an_appointment/screens/settings.dart';
+import 'package:ai_tor_tell_you_an_appointment/sekai/GraphPage.dart';
 import 'package:flutter/material.dart';
 //import 'package:ai_tor_tell_you_an_appointment/styleData.dart';
 
@@ -48,8 +52,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.home,
               text: 'Home',
               onTap: () {
-                //TODO : Navigate to home page
-              },
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SafeArea(child: HomePage())));},
             ),
             _buildBottomNavigationItem(
               context,
@@ -57,7 +60,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.calendar,
               text: 'Calendar',
               onTap: () {
-                //TODO : Navigate to home page
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: CalendarPage())));
               },
             ),
             _buildBottomNavigationItem(
@@ -66,7 +69,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.statistics,
               text: 'Statistics',
               onTap: () {
-                //TODO : Navigate to home page
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: GraphPage())));
               },
             ),
             _buildBottomNavigationItem(
@@ -75,7 +78,7 @@ class BottomNavigation extends StatelessWidget {
               name: BottomPages.settings,
               text: 'Settings',
               onTap: () {
-                //TODO : Navigate to home page
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SafeArea(child: Settings())));
               },
             ),
           ],

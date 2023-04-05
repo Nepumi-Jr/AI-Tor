@@ -1,13 +1,10 @@
-import 'dart:convert';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 
 class DateGraphContainer extends StatefulWidget {
-  DateGraphContainer({Key? key, required this.title}) : super(key: key);
+  const DateGraphContainer({Key? key, required this.title}) : super(key: key);
   final String title;
   
   @override
@@ -53,7 +50,7 @@ class _DateGraphContainer extends State<DateGraphContainer> {
           dataSource: _chartData,
           xValueMapper: (TimeData time, _) => time.dateTime,
           yValueMapper: (TimeData time, _) => time.time,
-          dataLabelSettings: DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
+          dataLabelSettings: const DataLabelSettings(isVisible: true),                //แสดงเลขบนกราฟ
           enableTooltip: true,
           //color: StyleData.primaryColor
         )
