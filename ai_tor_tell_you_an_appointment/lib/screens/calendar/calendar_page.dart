@@ -1,9 +1,12 @@
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../bottomNavigation.dart';
 import 'package:intl/intl.dart';
+import '../../data/data.dart';
+import 'add_page.dart';
 import 'info_page.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -21,7 +24,11 @@ class CalendarPageState extends State<CalendarPage> {
 
   void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||
-        details.targetElement == CalendarElement.agenda) {
+        details.targetElement == CalendarElement.agenda ||
+        details.targetElement == CalendarElement.calendarCell) {
+      if (details.appointments!.length == 0) {
+        return;
+      }
       final Appointment appointmentDetails = details.appointments![0];
       _subjectText = appointmentDetails.subject;
       //TODO: date format support other langs.
@@ -41,7 +48,7 @@ class CalendarPageState extends State<CalendarPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Container(child: new Text('$_subjectText')),
+              title: Container(child: Text('$_subjectText')),
               content: Container(
                 height: 80,
                 child: Column(
@@ -96,10 +103,16 @@ class CalendarPageState extends State<CalendarPage> {
                                   LangMan.get().calendar.alertMoreDetail,
                                   style: const TextStyle(color: Colors.grey)),
                               onTap: () {
+                                print(">>>>>>>>> ID: ${appointmentDetails.id}");
                                 Navigator.of(context).pop();
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        SafeArea(child: InfoPage())));
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => SafeArea(
+                                      child: InfoPage(
+                                          appointmentDetails.id as String),
+                                    ),
+                                  ),
+                                );
                               },
                             ))
                       ],
@@ -135,41 +148,54 @@ class CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-            child: SfCalendar(
-          view: CalendarView.month,
-          allowedViews: const [
-            CalendarView.day,
-            CalendarView.week,
-            CalendarView.month
-          ],
-          headerStyle: const CalendarHeaderStyle(textAlign: TextAlign.center),
-          headerHeight: 60,
-          onTap: calendarTapped,
-          showNavigationArrow: true,
-          dataSource: _getCalendarDataSource(),
-        )),
-      ),
-      bottomNavigationBar: const BottomNavigation(
-        focused: BottomPages.calendar,
-      ),
-    );
+        body: SafeArea(
+          child: Consumer<User>(
+            builder: (context, uData, child) {
+              List<Appointment> appointments = <Appointment>[];
+              uData.getActivities().forEach((element) {
+                appointments.add(Appointment(
+                    startTime: element.getEventTime(),
+                    endTime: element.getEndEventTime(),
+                    subject: element.calendarEvent.summary ?? '',
+                    color: Colors.blue,
+                    startTimeZone: '',
+                    endTimeZone: '',
+                    id: element.calendarEvent.id));
+              });
+
+              return SfCalendar(
+                view: CalendarView.month,
+                allowedViews: const [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.month
+                ],
+                headerStyle:
+                    const CalendarHeaderStyle(textAlign: TextAlign.center),
+                headerHeight: 60,
+                onTap: calendarTapped,
+                showNavigationArrow: true,
+                dataSource: _AppointmentDataSource(appointments),
+              );
+            },
+          ),
+        ),
+        bottomNavigationBar: const BottomNavigation(
+          focused: BottomPages.calendar,
+        ),
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color.fromRGBO(66, 66, 66, 1)
+                  : Colors.white,
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SafeArea(child: AddPage()))));
+        }));
   }
-}
-
-_AppointmentDataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(Duration(hours: 2)),
-    subject: 'Meeting',
-    color: Colors.blue,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  return _AppointmentDataSource(appointments);
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

@@ -10,8 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  String dropdownValue = 'Date';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +27,10 @@ class HomePageState extends State<HomePage> {
                 color: Theme.of(context).brightness == Brightness.dark
                     ? const Color.fromRGBO(66, 66, 66, 1)
                     : Colors.white,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [_dropdown(), const SizedBox(width: 20)])),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  // _dropdown(),
+                  const SizedBox(height: 20)
+                ])),
             Expanded(child: DataList())
           ]),
         ),
@@ -40,46 +39,5 @@ class HomePageState extends State<HomePage> {
         focused: BottomPages.home,
       ),
     );
-  }
-
-  Widget _dropdown() {
-    return DropdownButtonHideUnderline(
-        child: Container(
-      padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5, left: 10),
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.withOpacity(.3))),
-      child: DropdownButton<String>(
-        isDense: true,
-        borderRadius: BorderRadius.circular(10),
-        alignment: Alignment.center,
-        value: dropdownValue,
-        icon: const Icon(Icons.arrow_drop_down),
-        elevation: 16,
-        onChanged: (String? value) {
-          setState(() {
-            dropdownValue = value!;
-          });
-        },
-        //'Date', 'Priority'
-        items: <DropdownMenuItem<String>>[
-          DropdownMenuItem<String>(
-            value: 'Date',
-            child: Text(
-              LangMan.get().home.dropDownDate,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          DropdownMenuItem<String>(
-            value: 'Priority',
-            child: Text(
-              LangMan.get().home.dropDownPriority,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-    ));
   }
 }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/faceImage.dart';
 import 'package:ai_tor_tell_you_an_appointment/backend/LangManager.dart';
+import 'package:provider/provider.dart';
+
+import '../../data/data.dart';
+import '../faceSetting.dart';
 
 class UserInfoCard extends StatelessWidget {
   //? These data could be retrieve from internal backend data
@@ -9,58 +14,103 @@ class UserInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO: score calculation and retrieve info will run from here
-    const String name = "Fordcer";
-    const int level = 1;
-    const int exp = 1;
-    const int maxExp = 100;
-    final ImageProvider img = FaceImage.getImageIndex(0);
-    const int accuracy = 69; //? range from 1 to 100
-    final String motivateText = LangMan.get().home.commentHappy;
 
     final screenW = MediaQuery.of(context).size.width;
-    return Container(
-      color: Theme.of(context).brightness == Brightness.dark
-          ? const Color.fromRGBO(66, 66, 66, 1)
-          : Colors.white,
-      width: screenW,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-              margin: const EdgeInsets.only(top: 30),
-              child: Text(
-                name,
-                style: _textStyle(),
-              )),
-          Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: Text(
-                  LangMan.interpolate(
-                      LangMan.get().home.levelFormat, [level, exp, maxExp]),
-                  style: _textStyle())),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: img,
-                  radius: 100,
-                )
-              ],
-            ),
+    return Consumer<User>(
+      builder: (context, uData, child) {
+        final String name = uData.name ?? "No Name";
+        const int level = 1;
+        final int? exp = uData.getExp();
+        const int maxExp = 100;
+        final int? accuracy = uData.getPercentRate(); //? range from 1 to 100
+
+        late final ImageProvider img;
+        late final String motivateText;
+
+        if (accuracy == null) {
+          img = FaceImage.getImageIndex(0);
+          motivateText = LangMan.get().home.commentHappy;
+        } else if (accuracy > 95) {
+          img = FaceImage.getImageIndex(0);
+          motivateText = LangMan.get().home.commentHappy;
+        } else if (accuracy > 60) {
+          img = FaceImage.getImageIndex(1);
+          motivateText = LangMan.get().home.commentNormal;
+        } else if (accuracy > 45) {
+          img = FaceImage.getImageIndex(2);
+          motivateText = LangMan.get().home.commentSad;
+        } else if (accuracy > 30) {
+          img = FaceImage.getImageIndex(3);
+          motivateText = LangMan.get().home.commentAngry;
+        } else {
+          img = FaceImage.getImageIndex(4);
+          motivateText = LangMan.get().home.commentDead;
+        }
+
+        return Container(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromRGBO(66, 66, 66, 1)
+              : Colors.white,
+          width: screenW,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(top: 30),
+                  child: Text(
+                    name,
+                    style: _textStyle(),
+                  )),
+              Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Text(
+                      (exp == null)
+                          ? LangMan.get().home.unknownLevel
+                          : LangMan.interpolate(LangMan.get().home.levelFormat,
+                              [level, exp, maxExp]),
+                      style: _textStyle())),
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircularPercentIndicator(
+                      radius: 105,
+                      lineWidth: 5.0,
+                      percent: (exp ?? 0) / 100,
+                      reverse: false,
+                      backgroundColor: Colors.white,
+                      progressColor: Theme.of(context).colorScheme.primary,
+                      center: GestureDetector(
+                          child: CircleAvatar(
+                            backgroundImage: img,
+                            radius: 100,
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const SafeArea(child: FaceSettings())));
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Text(
+                      (accuracy == null)
+                          ? LangMan.get().home.unknownPercent
+                          : LangMan.interpolate(
+                              LangMan.get().home.percentFormat, [accuracy]),
+                      style: _textStyle())),
+              Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Text(motivateText, style: _textStyle())),
+              const SizedBox(height: 15)
+            ],
           ),
-          Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: Text(
-                  LangMan.interpolate(
-                      LangMan.get().home.percentFormat, [accuracy]),
-                  style: _textStyle())),
-          Container(
-              margin: const EdgeInsets.only(top: 5),
-              child: Text(motivateText, style: _textStyle()))
-        ],
-      ),
+        );
+      },
     );
   }
 
